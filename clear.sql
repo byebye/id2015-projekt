@@ -1,0 +1,1 @@
+-- Skrypt usuwający wszystkie utworzone tabele --
