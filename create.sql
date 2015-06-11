@@ -1,5 +1,19 @@
 -- Skrypt tworzący wszystkie tabele i wypełniający je przykładowymi danymi --
 
+-- ********************* dokumenty *********************
+
+-- Na dokumenty moze wskazywac wlasciwie kazda inna tabela - dlatego w razie potrzeby robimy dodatkowa tabele w stylu: 'cos_dokumenty'
+CREATE TABLE dokumenty(
+   id          serial PRIMARY KEY,
+   typ         int REFERENCES dokumenty_typy(id) NOT NULL,
+   sciezka     varchar(250) NOT NULL, -- sciezka do pliku ?
+);
+
+CREATE TABLE dokumenty_typy(
+   id          serial PRIMARY KEY,
+   nazwa       varchar(100)
+);
+
 -- ********************* miejsca *********************
 
 CREATE TABLE miejsca( -- w rodzaju miast, miasteczek
@@ -8,9 +22,9 @@ CREATE TABLE miejsca( -- w rodzaju miast, miasteczek
 );
 
 CREATE TABLE miejsca_dokumenty(
-   id_miejsca         int REFERENCES ziemia(id) NOT NULL,
-   id_dokumentu      int REFERENCES dokumenty(id) NOT NULL,
-   CONSTRAINT miejsca_dokumenty_pk PRIMARY KEY(id_miejsca, id_dokumentu),
+   id_miejsce       int REFERENCES ziemia(id) NOT NULL,
+   id_dokument      int REFERENCES dokumenty(id) NOT NULL,
+   CONSTRAINT miejsca_dokumenty_pk PRIMARY KEY(id_miejsce, id_dokument),
 );
 
 CREATE TABLE ziemie( -- wieksze obszary, zarzadzanie przez rody
@@ -22,39 +36,33 @@ CREATE TABLE ziemie( -- wieksze obszary, zarzadzanie przez rody
 );
 
 CREATE TABLE ziemie_dokumenty(
-   id_ziemii         int REFERENCES ziemia(id) NOT NULL,
-   id_dokumentu      int REFERENCES dokumenty(id) NOT NULL,
-   CONSTRAINT ziemie_dokumenty_pk PRIMARY KEY(id_ziemii, id_dokumentu),
+   id_ziemia        int REFERENCES ziemia(id) NOT NULL,
+   id_dokument      int REFERENCES dokumenty(id) NOT NULL,
+   CONSTRAINT ziemie_dokumenty_pk PRIMARY KEY(id_ziemia, id_dokument),
 );
 
--- ********************* wydarzenia, dokumenty *********************
-
--- Na dokumenty i wydarzenia moze wskazywac wlasciwie kazda inna tabela - dlatego w razie potrzeby robimy dodatkowa tabele w stylu: 'cos_dokumenty'
-CREATE TABLE dokumenty(
-   id          serial PRIMARY KEY,
-   typ         int REFERENCES typy_dokumentow(id) NOT NULL,
-   sciezka     varchar(250) NOT NULL, -- sciezka do pliku ?
-);
-
-CREATE TABLE typy_dokumentow(
-   id          serial PRIMARY KEY,
-   nazwa       varchar(100)
-);
+-- ********************* wydarzenia *********************
 
 CREATE TABLE wydarzenia(
    id                serial PRIMARY KEY,
    data              date, -- moze byc nieznana lub tylko przyblizona - czy chcemy to w jakis szczegolny sposob obslugiwac?
    nazwa             varchar(100),
+   typ               int REFERENCES wydarzenia_typy(id),
    -- moze lepiej trzymac w osobnej tabeli, zeby nie zajmowac niepotrzebnie pamieci, albo tu tylko krotka notka i zalozyc, ze "porzadny" opis w dokumencie
    opis              varchar(300), 
    miejsce           int REFERENCES miejsca(id),
    czy_potwierdzone  bool, -- zrodlo o danym wydarzeniu moze byc pewne, np. kroniki lub np. na podstawie plotek, przekazywane ustnie
 );
 
+CREATE TABLE wydarzenia_typy(
+   id       serial PRIMARY KEY,
+   nazwa    varchar(50),
+);
+
 CREATE TABLE wydarzenia_dokumenty(
-   id_wydarzenia         int REFERENCES wydarzenia(id) NOT NULL,
-   id_dokumentu          int REFERENCES dokumenty(id) NOT NULL,
-   CONSTRAINT wydarzenia_dokumenty_pk PRIMARY KEY(id_wydarzenia, id_dokumentu),
+   id_wydarzenie         int REFERENCES wydarzenia(id) NOT NULL,
+   id_dokument           int REFERENCES dokumenty(id) NOT NULL,
+   CONSTRAINT wydarzenia_dokumenty_pk PRIMARY KEY(id_wydarzenie, id_dokument),
 );
 
 -- ********************* zwiazane z osobami *********************
@@ -62,11 +70,6 @@ CREATE TABLE wydarzenia_dokumenty(
 CREATE TABLE kolory(
    id       serial PRIMARY KEY,
    nazwa    varchar(30)
-);
-
-CREATE TABLE rodzaje_plci(
-   id       serial PRIMARY KEY,
-   nazwa    varchar(20)
 );
 
 CREATE TABLE rody(
@@ -81,14 +84,14 @@ CREATE TABLE rody(
 
 CREATE TABLE rody_dokumenty(
    id_rodu           int REFERENCES rody(id) NOT NULL,
-   id_dokumentu      int REFERENCES dokumenty(id) NOT NULL,
-   CONSTRAINT rody_dokumenty_pk PRIMARY KEY(id_rodu, id_dokumentu),
+   id_dokument      int REFERENCES dokumenty(id) NOT NULL,
+   CONSTRAINT rody_dokumenty_pk PRIMARY KEY(id_rodu, id_dokument),
 );
 
 CREATE TABLE rody_wydarzenia(
    id_rodu             int REFERENCES rody(id) NOT NULL,
-   id_wydarzenia       int REFERENCES wydarzenia(id) NOT NULL,
-   CONSTRAINT rody_wydarzenia_pk PRIMARY KEY(id_rodu, id_wydarzenia),
+   id_wydarzenie       int REFERENCES wydarzenia(id) NOT NULL,
+   CONSTRAINT rody_wydarzenia_pk PRIMARY KEY(id_rodu, id_wydarzenie),
    -- pomyslec: zaleznosci pomiedzy rodami, kto komu podlegly -> moze sie zmieniac
 );
 
@@ -99,9 +102,9 @@ CREATE TABLE religie(
 );
 
 CREATE TABLE religie_dokumenty(
-   id_religii        int REFERENCES religie(id) NOT NULL,
-   id_dokumentu      int REFERENCES dokumenty(id) NOT NULL,
-   CONSTRAINT religie_dokumenty_pk PRIMARY KEY(id_religii, id_dokumentu),
+   id_religia        int REFERENCES religie(id) NOT NULL,
+   id_dokument       int REFERENCES dokumenty(id) NOT NULL,
+   CONSTRAINT religie_dokumenty_pk PRIMARY KEY(id_religia, id_dokument),
 );
 
 CREATE TABLE funkcje(
@@ -116,7 +119,7 @@ CREATE TABLE osoby(
    imie           varchar(50),
    nazwisko       varchar(50),
    id_rodu        int REFERENCES rody(id), -- trzeba sie zastanowic, czy ma byc osobna tabela - bo moga sie zmieniac
-   plec           int REFERENCES rodzaje_plci(id), -- mozna tez zrobic jako char: 'm' lub 'k', ale nie wiem, czy bedzie to wtedy 3 postac normalna
+   plec           char, -- check: możliwe wartości 'm' lub 'k'
    matka_biol     int REFERENCES osoby(id),      -- check - musi byc starsza
    ojciec_biol    int REFERENCES osoby(id),      -- check - musi byc starszy
    kolor_oczu     int REFERENCES kolory(id),
@@ -134,14 +137,14 @@ CREATE TABLE osoby_funkcje(
 );
 
 CREATE TABLE osoby_dokumenty(
-   id_osoby             int REFERENCES osoby(id) NOT NULL,
-   id_dokumentu         int REFERENCES dokumenty(id) NOT NULL,
-   CONSTRAINT osoby_dokumenty_pk PRIMARY KEY(id_osoby, id_dokumentu),
+   id_osoba             int REFERENCES osoby(id) NOT NULL,
+   id_dokument          int REFERENCES dokumenty(id) NOT NULL,
+   CONSTRAINT osoby_dokumenty_pk PRIMARY KEY(id_osoba, id_dokument),
 );
 
 CREATE TABLE osoby_wydarzenia(
-   id_osoby             int REFERENCES osoby(id) NOT NULL,
-   id_wydarzenia        int REFERENCES wydarzenia(id) NOT NULL,
-   CONSTRAINT osoby_wydarzenia_pk PRIMARY KEY(id_osoby, id_wydarzenia),
+   id_osoba             int REFERENCES osoby(id) NOT NULL,
+   id_wydarzenie        int REFERENCES wydarzenia(id) NOT NULL,
+   CONSTRAINT osoby_wydarzenia_pk PRIMARY KEY(id_osoba, id_wydarzenie),
    -- trigger - np. dla danej osoby tylko jedne możliwe narodziny, śmierć
 );
