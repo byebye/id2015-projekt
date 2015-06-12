@@ -1,4 +1,4 @@
--- Skryept usuwający wszystkie utworzone tabele --
+-- Skrypt usuwający wszystkie utworzone tabele --
 DROP TABLE IF EXISTS dokumenty_typy CASCADE;
 DROP TABLE IF EXISTS dokumenty CASCADE;
 DROP TABLE IF EXISTS miejsca_typy CASCADE;
