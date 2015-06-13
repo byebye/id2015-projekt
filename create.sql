@@ -104,7 +104,7 @@ CREATE TABLE osoby(
    id             serial PRIMARY KEY,
    imie           varchar(50),
    nazwisko       varchar(50),
-   plec           char, -- check: możliwe wartości 'm' lub 'k'
+   plec           char(9) CHECK (plec = 'Kobieta' OR plec = 'Mężczyzna'),
    matka_biol     int REFERENCES osoby(id),      -- check - musi byc starsza
    ojciec_biol    int REFERENCES osoby(id),      -- check - musi byc starszy
    kolor_oczu     int REFERENCES kolory(id),

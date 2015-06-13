@@ -1,5 +1,5 @@
 #!/bin/bash
-create_file="create.sql"
+create_file="$1"
 
 echo "-- Skrypt usuwający wszystkie utworzone tabele --"
 
