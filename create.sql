@@ -6,25 +6,27 @@ BEGIN;
 
 CREATE TABLE dokumenty_typy(
    id          serial PRIMARY KEY,
-   nazwa       varchar(100)
+   nazwa       varchar(100) NOT NULL,
+   wiarygodny  bool
 );
 
 CREATE TABLE dokumenty(
    id          serial PRIMARY KEY,
    typ         int REFERENCES dokumenty_typy(id) NOT NULL,
-   sciezka     varchar(250) NOT NULL -- sciezka do pliku ?
+   sciezka     varchar(250) NOT NULL, -- sciezka do pliku ?
+   wiarygodny  bool
 );
 
 -- ********************* miejsca *********************
 
 CREATE TABLE miejsca_typy(
    id          serial PRIMARY KEY,
-   nazwa       varchar(50) NOT NULL 
+   nazwa       varchar(50) UNIQUE NOT NULL 
 );
 
 CREATE TABLE miejsca(
    id          serial PRIMARY KEY,
-   nazwa       varchar(50),
+   nazwa       varchar(50) NOT NULL,
    typ         int REFERENCES miejsca_typy(id)
 );
 
@@ -36,8 +38,8 @@ CREATE TABLE miejsca_dokumenty(
 
 CREATE TABLE ziemie( -- wieksze obszary, zarzadzanie przez rody
    id          serial PRIMARY KEY,
-   nazwa       varchar(50),
-   stolica     int REFERENCES miejsca(id), -- check - musi mieć typ 'miasto'
+   nazwa       varchar(50) NOT NULL,
+   stolica     int REFERENCES miejsca(id) NOT NULL, -- check - musi mieć typ 'miasto'
    wielkosc    numeric, -- powierzchniowo czy opisowo, np. "duzy", "maly", "sredni"
    polozenie   varchar(100) 
 );
@@ -154,7 +156,7 @@ CREATE TABLE osoby_funkcje(
    id_funkcja           int REFERENCES funkcje(id) NOT NULL,
    -- zamiast dat mozna tez zrobic odnosniki do wydarzen, gdzie moga byc wpisane szczegoly, np. dlaczego osoba zmienila pelniony zawod
    data_rozpoczecia     date, -- moze byc NULL, kiedy data jest nieznana
-   data_zakonczenia     date
+   data_zakonczenia     date CHECK (data_zakonczenia >= data_rozpoczecia)
    -- triggery: np. tylko jeden krol naraz
 );
 

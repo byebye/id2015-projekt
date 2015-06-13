@@ -2,17 +2,17 @@
 BEGIN;
 
 --Typy dokumentow
-INSERT INTO dokumenty_typy(nazwa) VALUES
-	('Obraz'),
-	('Portret'),
-	('Kronika'),
-	('Ballada'),
-	('Pieśń'),
-	('List'),
-	('Akt prawny'),
-	('Akt własności'),
-	('Umowa'),
-	('Legenda')
+INSERT INTO dokumenty_typy(nazwa, wiarygodny) VALUES
+	('Obraz', false),
+	('Portret', false),
+	('Kronika', true),
+	('Ballada', false),
+	('Pieśń', false),
+	('List', false),
+	('Akt prawny', true),
+	('Akt własności', true),
+	('Umowa', true),
+	('Legenda', false)
 ;
 
 --Typy miejsc
@@ -46,6 +46,4 @@ INSERT INTO wydarzenia_typy(nazwa) VALUES
 	('Banicja')
 ;
 
-
-
-
+END;
