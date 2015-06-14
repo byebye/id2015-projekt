@@ -237,6 +237,8 @@ $check_wydarzenie_osoba$ LANGUAGE plpgsql;
 CREATE TRIGGER check_wydarzenie_osoba BEFORE INSERT OR UPDATE ON osoby_wydarzenia
    FOR EACH ROW EXECUTE PROCEDURE check_wydarzenie_osoba();
 
+END;
+
 --Trigger: po śmierci osoby automatycznie kończ jego funkcję
 CREATE OR REPLACE FUNCTION update_osoby_funkcje_jesli_smierc() 
    RETURNS TRIGGER AS $update_osoby_funkcje_jesli_smierc$
@@ -270,52 +272,6 @@ DECLARE
 BEGIN
    result := (SELECT COUNT(*) FROM osoby_rody O WHERE O.id_rodu = num);
 RETURN result;
-END;
-$$ LANGUAGE plpgsql;
-
---WIDOK: protoplaści rodów
-CREATE OR REPLACE VIEW protoplasci AS
-   SELECT
-      R.nazwa AS nazwa, O.imie ||' '||O.nazwisko AS "Imię i nazwisko"
-   FROM
-      rody R 
-      JOIN osoby O ON R.zalozyciel = O.id
-;
-
--- Function: dla danej osoby zwraca wszystkich małżonków wraz z datami rozpoczęcia i zakończenia związku
-
-CREATE OR REPLACE FUNCTION get_malzenstwa(osoba int)
-   RETURNS TABLE(malzonek_id int, poczatek date, koniec date) AS $$
-DECLARE
-   malzonki_id int[];
-BEGIN
-   malzonki_id = (SELECT array_agg(os.id)
-                     FROM get_wydarzenia(osoba, 'Małżeństwo') AS w
-                     JOIN osoby_wydarzenia ow ON ow.id_wydarzenie = w.id
-                     JOIN osoby os ON os.id = ow.id_osoba
-                     WHERE os.id != osoba);
-   IF array_length(malzonki_id, 1) = 0 THEN
-      RETURN QUERY SELECT NULL;
-   ELSE
-      RETURN QUERY  
-         SELECT a.malzonek_id, 
-                a.poczatek,
-                CASE WHEN a.koniec = '' THEN NULL ELSE a.koniec::date END
-            FROM (
-               SELECT 
-                  unnest(malzonki_id) AS malzonek_id,
-                  unnest((
-                     SELECT array_agg(data)
-                        FROM get_wydarzenia(osoba, 'Małżeństwo')
-                  )) AS poczatek,
-                  unnest((
-                     (SELECT array_agg(data)
-                        FROM get_wydarzenia(osoba, 'Rozwód', 'Zgon naturalny', 'Śmierć nienaturalna')
-                     )::text[] || ''::text
-                  )) AS koniec
-                  LIMIT (array_length(malzonki_id, 1))
-            ) a;
-      END IF;
 END;
 $$ LANGUAGE plpgsql;
 
