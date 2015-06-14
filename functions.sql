@@ -166,21 +166,16 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
---Function: wszystkie osoby biorące udział w danym wydarzeniu
-CREATE OR REPLACE FUNCTION kto_bral_udzial(id_wydarzenia numeric)
-   RETURNS TABLE(
-      "id osoby" numeric,
-      "imie i nazwisko" varchar(100),
-      "ród" varchar(50)
-   ) AS $$
+-- Function: wszystkie osoby biorące udział w danym wydarzeniu
+
+CREATE OR REPLACE FUNCTION kto_bral_udzial(wydarzenie int)
+   RETURNS SETOF osoby AS $$
 BEGIN
    RETURN QUERY 
-      SELECT 
-         id_osoba,
-         (SELECT imie||' '||nazwisko FROM osoby WHERE id = id_osoba),
-         (SELECT LAST(R.nazwa) FROM rody R JOIN osoby_rody O ON R.id = O.id_rodu WHERE R.id_osoba = id_osoba)
-      FROM osoby_wydarzenia
-      WHERE id_wydarzenie = id_wydarzenia;
+      SELECT osoby.*
+      FROM osoby_wydarzenia ow
+      JOIN osoby ON osoby.id = ow.id_osoba
+      WHERE ow.id_wydarzenie = wydarzenie;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -237,7 +232,7 @@ $check_wydarzenie_osoba$ LANGUAGE plpgsql;
 CREATE TRIGGER check_wydarzenie_osoba BEFORE INSERT OR UPDATE ON osoby_wydarzenia
    FOR EACH ROW EXECUTE PROCEDURE check_wydarzenie_osoba();
 
---Trigger: po śmierci osoby automatycznie kończ jego funkcję
+-- Trigger: po śmierci osoby automatycznie kończ jego funkcję
 CREATE OR REPLACE FUNCTION update_osoby_funkcje_jesli_smierc() 
    RETURNS TRIGGER AS $update_osoby_funkcje_jesli_smierc$
 DECLARE
@@ -262,7 +257,7 @@ $update_osoby_funkcje_jesli_smierc$ LANGUAGE plpgsql;
 CREATE TRIGGER update_osoby_funkcje_jesli_smierc BEFORE UPDATE ON osoby_wydarzenia
    FOR EACH ROW EXECUTE PROCEDURE update_osoby_funkcje_jesli_smierc();
 
---FUNKCJA: ile osób z danego rodu żyło na świecie
+-- FUNKCJA: ile osób z danego rodu żyło na świecie
 CREATE OR REPLACE FUNCTION ile_osob_zylo(num int)
    RETURNS int AS $$
 DECLARE
@@ -273,7 +268,7 @@ RETURN result;
 END;
 $$ LANGUAGE plpgsql;
 
---WIDOK: protoplaści rodów
+-- WIDOK: protoplaści rodów
 CREATE OR REPLACE VIEW protoplasci AS
    SELECT
       R.nazwa AS nazwa, O.imie ||' '||O.nazwisko AS "Imię i nazwisko"
@@ -282,7 +277,7 @@ CREATE OR REPLACE VIEW protoplasci AS
       JOIN osoby O ON R.zalozyciel = O.id
 ;
 
---TRIGGER: kraina musi miec typ 3
+-- TRIGGER: kraina musi miec typ 3
 CREATE OR REPLACE FUNCTION check_krainy_ziemie()
    RETURNS TRIGGER AS $check_krainy_ziemie$
 DECLARE
@@ -306,7 +301,7 @@ CREATE TRIGGER check_krainy_ziemie BEFORE INSERT OR UPDATE ON krainy_ziemie
 
 END;
 
---TRIGGER: stolica rodu musi być zamkiem lub miastem
+-- TRIGGER: stolica rodu musi być zamkiem lub miastem
 CREATE OR REPLACE FUNCTION check_rody_stolice()
    RETURNS TRIGGER AS $check_rody_stolice$
 DECLARE
@@ -333,7 +328,7 @@ CREATE OR REPLACE FUNCTION get_malzenstwa(osoba int)
 DECLARE
    malzonki_id int[];
 BEGIN
-   malzonki_id = (SELECT array_agg(os.id)
+   malzonki_id := (SELECT array_agg(os.id)
                      FROM get_wydarzenia(osoba, 'Małżeństwo') AS w
                      JOIN osoby_wydarzenia ow ON ow.id_wydarzenie = w.id
                      JOIN osoby os ON os.id = ow.id_osoba
@@ -370,22 +365,22 @@ CREATE OR REPLACE FUNCTION get_bekarci(osoba int)
 DECLARE
    dziecko record;
    dziecko_narodziny date;
-   rodzic2 int;
+   prawdziwy_rodzic int;
    malzonek int;
 BEGIN
    FOR dziecko IN (SELECT * FROM get_potomkowie(osoba, 1) WHERE poziom > 0)
    LOOP
       dziecko_narodziny := (get_wydarzenia(dziecko.id, 'Narodziny')).data;
-      rodzic2 := (SELECT p.id 
-                     FROM get_przodkowie(dziecko.id, 1) AS p
-                     WHERE poziom > 0 AND p.id != osoba
-                  );
+      prawdziwy_rodzic := (SELECT p.id 
+                              FROM get_przodkowie(dziecko.id, 1) AS p
+                              WHERE poziom > 0 AND p.id != osoba
+                           );
       malzonek := (SELECT m.malzonek_id 
                      FROM get_malzenstwa(osoba) AS m
                      WHERE m.poczatek <= dziecko_narodziny 
                         AND dziecko_narodziny <= m.koniec
                   );
-      IF rodzic2 != malzonek THEN
+      IF prawdziwy_rodzic != malzonek THEN
          RETURN NEXT;
       END IF;
    END LOOP;
