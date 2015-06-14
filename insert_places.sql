@@ -10,7 +10,7 @@ INSERT INTO miejsca(id,nazwa,typ,wielkosc) VALUES
 	(7,'Casterly Rock',1,'duży'),
 	(8,'Czarny Zamek',1,'mały'),
 	(9,'Dreadfort',1,'mały'),
-	(10,'Czerwona Twierdza',1),
+	(10,'Czerwona Twierdza',1,'duży'),
 	(11,'Karhold',1,'średni'),
 	(12,'Fosa Cailin',1,'mały'),
 	(13,'Bliźniaki',1,'duży'),
@@ -35,7 +35,7 @@ INSERT INTO miejsca(id,nazwa,typ,wielkosc) VALUES
 ;
 
 --miasta
-INSERT INTO miejsca(id,nazwa,typ) VALUES
+INSERT INTO miejsca(id,nazwa,typ,wielkosc) VALUES
 	(32,'Braavos',2,'mały'),
 	(33,'Meereen',2,'duży'),
 	(34,'Asshai',2,'średni'),
@@ -92,7 +92,7 @@ INSERT INTO miejsca(id,nazwa,typ) VALUES
 	(78,'Nocna Straż',3)
 ;
 
-INSERT INTO krainy_ziemie VALUES
+INSERT INTO miejsca_krainy VALUES
 	(1,69),(2,70),(3,70),(4,69),(5,70),(6,76),(7,71),(8,78),(9,76),(10,73),(11,76),(12,76),(13,69),(14,72),(15,76),(16,77),(17,68),(18,78),(19,68),
 	(20,69),(21,67),(22,69),(23,69),(24,71),(25,69),(26,78),(27,68),(28,69),(29,78),(30,72),(31,71),(32,77),(33,77),(34,77),(35,77),(36,77),
 	(37,77),(38,77),(39,77),(40,77),(41,77),(42,77),(43,68),(44,77),(45,77),(46,77),(47,77),(48,71),(49,77),(50,76),(51,77),(52,77),

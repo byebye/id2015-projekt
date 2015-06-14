@@ -42,7 +42,9 @@ INSERT INTO wydarzenia_typy(id, nazwa) VALUES
 	(15, 'Wstąpienie do Nocnej Straży'),
 	(16, 'Pasowanie'),
 	(17, 'Aneksja ziem'),
-	(18, 'Banicja')
+	(18, 'Banicja'),
+	(19, 'Rozejm'),
+	(20, 'Początek świata')
 ;
 
 END;

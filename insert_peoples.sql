@@ -55,4 +55,18 @@ INSERT INTO rody(id,nazwa,zalozyciel,stolica,godlo,dewiza) VALUES
 	(10,'Stark',10,6,10,'Nadchodzi zima'),
 	(11,'Targaryen',11,36,11,'Krew i ogień')
 ;
+
+INSERT INTO rody_zaleznosci VALUES
+	(1,1,2,1),
+	(2,10,2,1),
+	(3,9,2,1),
+	(4,11,2,1),
+	(5,7,2,1),
+	(6,8,1,1),
+	(7,3,10,1),
+	(8,4,10,1),
+	(9,5,9,1),
+	(10,6,9,1)
+;
+
 END;

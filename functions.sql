@@ -289,7 +289,7 @@ DECLARE
    typ1 int;
    typ2 int;
 BEGIN
-   typ1 := (SELECT typ FROM miejsca M WHERE M.id = NEW.id_ziemia);
+   typ1 := (SELECT typ FROM miejsca M WHERE M.id = NEW.id_miejsce);
    typ2 := (SELECT typ FROM miejsca M WHERE M.id = NEW.id_kraina);
 
    IF typ1 = 3 THEN
