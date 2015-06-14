@@ -273,8 +273,6 @@ RETURN result;
 END;
 $$ LANGUAGE plpgsql;
 
-END;
-
 --WIDOK: protoplaści rodów
 CREATE OR REPLACE VIEW protoplasci AS
    SELECT
@@ -283,3 +281,47 @@ CREATE OR REPLACE VIEW protoplasci AS
       rody R 
       JOIN osoby O ON R.zalozyciel = O.id
 ;
+
+--TRIGGER: kraina musi miec typ 3
+CREATE OR REPLACE FUNCTION check_krainy_ziemie()
+   RETURNS TRIGGER AS $check_krainy_ziemie$
+DECLARE
+   typ1 int;
+   typ2 int;
+BEGIN
+   typ1 := (SELECT typ FROM miejsca M WHERE M.id = NEW.id_ziemia);
+   typ2 := (SELECT typ FROM miejsca M WHERE M.id = NEW.id_kraina);
+
+   IF typ1 = 3 THEN
+      RAISE EXCEPTION 'Pierwsza wartość nie może być krainą!';
+   ELSEIF typ2 <> 3 THEN
+      RAISE EXCEPTION 'Druga wartość musi być krainą!';
+   ELSE return NEW;
+   END IF;
+END;
+$check_krainy_ziemie$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_krainy_ziemie BEFORE INSERT OR UPDATE ON krainy_ziemie
+   FOR EACH ROW EXECUTE PROCEDURE check_krainy_ziemie();
+
+END;
+
+--TRIGGER: stolica rodu musi być zamkiem lub miastem
+CREATE OR REPLACE FUNCTION check_rody_stolice()
+   RETURNS TRIGGER AS $check_rody_stolice$
+DECLARE
+   typ int;
+BEGIN
+   typ := (SELECT M.typ FROM miejsca M WHERE M.id = NEW.stolica);
+
+   IF typ <> 1 AND typ <> 2 THEN
+      RAISE EXCEPTION 'Stolica musi być miastem lub zamkiem!';
+   ELSE return NEW;
+   END IF;
+END;
+$check_rody_stolice$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_rody_stolice BEFORE INSERT OR UPDATE ON rody
+   FOR EACH ROW EXECUTE PROCEDURE check_rody_stolice();
+
+END;
