@@ -32,3 +32,5 @@ DROP FUNCTION IF EXISTS czy_byla_zywa (int, date) CASCADE;
 DROP FUNCTION IF EXISTS czy_moze_byc_rodzicem (int, int) CASCADE;
 DROP FUNCTION IF EXISTS check_rodzice () CASCADE;
 DROP TRIGGER IF EXISTS check_rodzice ON osoby CASCADE;
+DROP FUNCTION IF EXISTS get_przodkowie (int, int) CASCADE;
+DROP FUNCTION IF EXISTS kto_bral_udzial (numeric) CASCADE;

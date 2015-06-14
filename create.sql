@@ -36,9 +36,15 @@ CREATE TABLE miejsca_dokumenty(
    CONSTRAINT miejsca_dokumenty_pk PRIMARY KEY(id_miejsce, id_dokument) 
 );
 
+<<<<<<< HEAD
 CREATE TABLE ziemie( -- miasta, które zarządzają zamkami, wsiami itp. żeby przejąć jakiś obszar, trzeba zająć miasto
    id_miejsce  int REFERENCES miejsca(id) NOT NULL, --musi być miasto
    wielkosc    varchar(10) CHECK(wielkosc = 'mały' OR wielkosc = 'średni' OR wielkosc = 'duży'),
+=======
+CREATE TABLE ziemie( -- wieksze obszary, zarzadzanie przez rody
+   id_miejsce  int REFERENCES miejsca(id) UNIQUE NOT NULL, -- check - nad jednym miejscem moze panowac jeden ród
+   wielkosc    varchar(10) CHECK(wielkosc IN ('mały', 'średni', 'duży')),
+>>>>>>> f36d604f4444c7409c9efeabc131326d5fd7992e
    polozenie   varchar(100),
    CONSTRAINT ziemie_pk PRIMARY KEY(id_miejsce)
 );
@@ -68,8 +74,7 @@ CREATE TABLE wydarzenia(
    nazwa             varchar(100),
    typ               int REFERENCES wydarzenia_typy(id),
    opis              varchar(300), -- krotki opis, wiecej w dokumentach
-   miejsce           int REFERENCES miejsca(id),
-   czy_potwierdzone  bool -- zrodlo o danym wydarzeniu moze byc pewne, np. kroniki lub np. na podstawie plotek, przekazywane ustnie
+   miejsce           int REFERENCES miejsca(id)
    -- ta tabela bedzie duza, wiec trzeba zrobic dla niej indeks dla szybszego wyszukiwania
 );
 
@@ -110,8 +115,8 @@ CREATE TABLE osoby(
    imie           varchar(50),
    nazwisko       varchar(50),
    plec           char(9) CHECK (plec = 'Kobieta' OR plec = 'Mężczyzna'),
-   matka_biol     int REFERENCES osoby(id),      -- check - musi byc starsza
-   ojciec_biol    int REFERENCES osoby(id),      -- check - musi byc starszy
+   matka_biol     int REFERENCES osoby(id), 
+   ojciec_biol    int REFERENCES osoby(id),
    kolor_oczu     int REFERENCES kolory(id),
    kolor_wlosow   int REFERENCES kolory(id),
    religia        int REFERENCES religie(id) -- moga sie zmieniac - chcemy to notowac?
