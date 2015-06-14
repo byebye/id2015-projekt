@@ -237,8 +237,6 @@ $check_wydarzenie_osoba$ LANGUAGE plpgsql;
 CREATE TRIGGER check_wydarzenie_osoba BEFORE INSERT OR UPDATE ON osoby_wydarzenia
    FOR EACH ROW EXECUTE PROCEDURE check_wydarzenie_osoba();
 
-END;
-
 --Trigger: po śmierci osoby automatycznie kończ jego funkcję
 CREATE OR REPLACE FUNCTION update_osoby_funkcje_jesli_smierc() 
    RETURNS TRIGGER AS $update_osoby_funkcje_jesli_smierc$
