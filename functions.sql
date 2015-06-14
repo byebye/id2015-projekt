@@ -152,6 +152,31 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Function: dla podanej osoby i liczby n zwraca id wszystkich potomków n-kroków w przód wraz ze stopniem pokrewieństwa
+
+CREATE OR REPLACE FUNCTION get_potomkowie(osoba int, n int) 
+   RETURNS table(id int, poziom int) AS $$
+BEGIN
+   RETURN QUERY
+      WITH RECURSIVE get_potomkowie_helper(os, poziom) AS (
+         SELECT osoby.id, 0 AS poziom
+            FROM osoby
+            WHERE osoby.id = osoba
+      UNION
+         SELECT osoby.id, potomek.poziom + 1
+         FROM osoby, get_potomkowie_helper potomek
+         WHERE potomek.poziom < n
+               AND 
+               osoby.id IN (SELECT osoby.id
+                              FROM osoby
+                              WHERE ojciec_biol = potomek.os OR matka_biol = potomek.os
+                           )
+      )
+      SELECT *
+      FROM get_potomkowie_helper;
+END;
+$$ LANGUAGE plpgsql;
+
 --Function: wszystkie osoby biorące udział w danym wydarzeniu
 CREATE OR REPLACE FUNCTION kto_bral_udzial(id_wydarzenia numeric)
    RETURNS TABLE(
