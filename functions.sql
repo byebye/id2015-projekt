@@ -208,4 +208,57 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Function: zwraca id wszystkich osób żyjących w danym przedziale czasu
+
+CREATE OR REPLACE FUNCTION get_zyjacy(pocz date, koniec date)
+   RETURNS SETOF int AS $$
+DECLARE
+   narodziny date;
+   smierc date;
+   id int;
+BEGIN
+   FOR id in (SELECT osoby.id FROM osoby) LOOP
+      narodziny = (get_wydarzenia(id, 'Narodziny')).data;
+      smierc = get_data_smierci(id);
+      IF (narodziny < koniec AND coalesce(koniec <= smierc, true))
+         OR (narodziny <= pocz AND coalesce(pocz < smierc, true))
+         OR (pocz <= narodziny AND smierc <= koniec)
+      THEN
+         RETURN NEXT id;
+      END IF;
+   END LOOP;
+   RETURN;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger: sprawdza, czy osoba dodana do wydarzenia była w jego trakcie żywa (wyłączając narodziny, śmierć, pogrzeb) i sprawdza, czy nie próbujemy wstawić kolejnych narodzin lub śmierci
+
+CREATE OR REPLACE FUNCTION check_wydarzenie_osoba()
+   RETURNS trigger AS $check_wydarzenie_osoba$
+DECLARE
+   wyd record;
+   typ varchar(50);
+BEGIN
+   SELECT * FROM wydarzenia w WHERE w.id = NEW.id_wydarzenie INTO wyd;
+   typ = (SELECT nazwa 
+            FROM wydarzenia_typy wt
+            WHERE wt.id = wyd.typ
+         );
+   IF typ IN ('Narodziny', 'Zgon naturalny', 'Śmierć nienaturalna', 'Pogrzeb') THEN
+      IF (SELECT COUNT(*) FROM get_wydarzenia(NEW.id_osoba, typ)) > 0 THEN
+         RAISE EXCEPTION 'Narodziny, śmierć i pogrzeb nie mogą się powtarzać';
+      ELSE
+         RETURN NEW;
+      END IF;
+   ELSIF NOT czy_byla_zywa(NEW.id_osoba, wyd.data) THEN
+      RAISE EXCEPTION 'Osoba musi być żywa w trakcie danego wydarzenia';
+   ELSE
+      RETURN NEW;
+   END IF; 
+END;
+$check_wydarzenie_osoba$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_wydarzenie_osoba BEFORE INSERT OR UPDATE ON osoby_wydarzenia
+   FOR EACH ROW EXECUTE PROCEDURE check_wydarzenie_osoba();
+
 END;
