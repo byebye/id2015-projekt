@@ -17,7 +17,7 @@ BEGIN
 END;
 $check_stolica_miasto$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_stolica_miasto BEFORE INSERT ON ziemie
+CREATE TRIGGER check_stolica_miasto BEFORE INSERT OR UPDATE ON ziemie
    FOR EACH ROW EXECUTE PROCEDURE check_stolica_miasto();
 
 -- Trigger: jeśli przy wstawianiu do tabeli 'dokumenty' nie zostanie zdefiniowana wiarygodność, to zostanie przypisana domyślna wartość ustalona w 'dokumenty_typy'
@@ -40,7 +40,7 @@ CREATE TRIGGER set_dokument_wiarygodny BEFORE INSERT ON dokumenty
 -- Function: dla osoby o danym id wyświetla wydarzenia o danym typie (podanym jako nazwa, nie id)
 
 CREATE OR REPLACE FUNCTION get_wydarzenia(osoba int, wydarzenie_typ text) 
-   RETURNS table(id int, data date, nazwa varchar(100), typ int, opis varchar(300), miejsce int, czy_potwierdzone bool) AS $$
+   RETURNS table(id int, data date, nazwa varchar(100), typ int, opis varchar(300), miejsce int) AS $$
 BEGIN
    RETURN QUERY
       SELECT wyd.*
@@ -75,8 +75,8 @@ DECLARE
    narodziny date;
    smierc    date;
 BEGIN
-   narodziny = (SELECT data FROM get_wydarzenia(osoba, 'Narodziny'));
-   smierc = (SELECT data FROM get_data_smierci(osoba));
+   narodziny = (SELECT wyd.data FROM get_wydarzenia(osoba, 'Narodziny') wyd);
+   smierc = (SELECT wyd.data FROM get_data_smierci(osoba) wyd);
    RETURN narodziny <= data AND data <= smierc;
 END;
 $$ LANGUAGE plpgsql;
@@ -90,14 +90,14 @@ DECLARE
 BEGIN
    dziecko_narodziny = (SELECT data FROM get_wydarzenia(dziecko, 'Narodziny'));
    IF 'Kobieta' = (SELECT plec FROM osoby WHERE osoby.id = rodzic) THEN
-      RETURN czy_byla_zywa(rodzic, dziecko_narodziny - interval '9 months') AND czy_byla_zywa(rodzic, dziecko_narodziny);
+      RETURN (czy_byla_zywa(rodzic, (dziecko_narodziny - interval '9 months')::date) AND czy_byla_zywa(rodzic, dziecko_narodziny));
    ELSE
-      RETURN czy_byla_zywa(rodzic, dziecko_narodziny - interval '9 months');
+      RETURN czy_byla_zywa(rodzic, (dziecko_narodziny - interval '9 months')::date);
    END IF;
 END;
 $$ LANGUAGE plpgsql;
 
--- Trigger: rodzice muszą być odpowiedniej płci, starsi od swojego dziecka, a matka żywa w trakcie jego narodzin
+-- Trigger: rodzice muszą być odpowiedniej płci, starsi od swojego dziecka, żywi (tylko matka) w trakcie narodzin dziecka i jego poczęcia (oboje)
 
 CREATE OR REPLACE FUNCTION check_rodzice() 
    RETURNS trigger AS $check_rodzice$
@@ -105,19 +105,51 @@ DECLARE
    matka record;
    ojciec record;
 BEGIN
-   matka  = (SELECT FROM osoby WHERE id = NEW.matka_biol);
-   ojciec = (SELECT FROM osoby WHERE id = NEW.ojciec_biol);
-   IF matka.plec != 'Kobieta' OR ojciec.plec != 'Mężczyzna' THEN
-      RAISE EXCEPTION 'Rodzice muszą być odpowiedniej płci';
-   ELSIF !czy_moze_byc_rodzicem(matka.id, NEW.id) OR !czy_moze_byc_rodzicem(ojciec.id, NEW.id) THEN
-      RAISE EXCEPTION 'Rodzice muszą być starsi i żywi (tylko matka) w trakcie narodzin dziecka i jego poczęcia (oboje)';
-   ELSE
-      RETURN NEW;
-   END IF; 
+      SELECT id, plec FROM osoby WHERE id = NEW.matka_biol INTO matka;
+      SELECT id, plec FROM osoby WHERE id = NEW.ojciec_biol INTO ojciec;
+      IF matka.plec != 'Kobieta' OR ojciec.plec != 'Mężczyzna' THEN
+         RAISE EXCEPTION 'Rodzice muszą być odpowiedniej płci';
+      ELSIF NOT czy_moze_byc_rodzicem(matka.id, NEW.id) OR NOT czy_moze_byc_rodzicem(ojciec.id, NEW.id) THEN
+         RAISE EXCEPTION 'Rodzice muszą być starsi i żywi (tylko matka) w trakcie narodzin dziecka i jego poczęcia (oboje)';
+      ELSE
+         RETURN NEW;
+      END IF;
 END;
 $check_rodzice$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_rodzice BEFORE INSERT ON osoby
+CREATE TRIGGER check_rodzice BEFORE INSERT OR UPDATE ON osoby
    FOR EACH ROW EXECUTE PROCEDURE check_rodzice();
+
+-- Function: dla podanej osoby i liczby n zwraca id wszystkich przodków n-kroków wstecz wraz ze stopniem pokrewieństwa
+
+CREATE OR REPLACE FUNCTION get_przodkowie(osoba int, n int) 
+   RETURNS table(id int, poziom int) AS $$
+BEGIN
+   RETURN QUERY
+      WITH RECURSIVE get_przodkowie_helper(os, poziom) AS (
+         SELECT osoby.id, 0 AS poziom
+            FROM osoby
+            WHERE osoby.id = osoba
+      UNION
+         SELECT osoby.id, przodek.poziom + 1
+         FROM osoby, get_przodkowie_helper przodek
+         WHERE przodek.poziom < n
+               AND 
+               (
+                  osoby.id = (SELECT matka_biol
+                                 FROM osoby 
+                                 WHERE osoby.id = przodek.os
+                              )
+                  OR
+                  osoby.id = (SELECT ojciec_biol 
+                                 FROM osoby 
+                                 WHERE osoby.id = przodek.os
+                              )
+               )
+      )
+      SELECT *
+      FROM get_przodkowie_helper;
+END;
+$$ LANGUAGE plpgsql;
 
 END;

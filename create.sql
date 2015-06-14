@@ -63,8 +63,7 @@ CREATE TABLE wydarzenia(
    nazwa             varchar(100),
    typ               int REFERENCES wydarzenia_typy(id),
    opis              varchar(300), -- krotki opis, wiecej w dokumentach
-   miejsce           int REFERENCES miejsca(id),
-   czy_potwierdzone  bool -- zrodlo o danym wydarzeniu moze byc pewne, np. kroniki lub np. na podstawie plotek, przekazywane ustnie
+   miejsce           int REFERENCES miejsca(id)
    -- ta tabela bedzie duza, wiec trzeba zrobic dla niej indeks dla szybszego wyszukiwania
 );
 
@@ -105,8 +104,8 @@ CREATE TABLE osoby(
    imie           varchar(50),
    nazwisko       varchar(50),
    plec           char(9) CHECK (plec = 'Kobieta' OR plec = 'Mężczyzna'),
-   matka_biol     int REFERENCES osoby(id),      -- check - musi byc starsza
-   ojciec_biol    int REFERENCES osoby(id),      -- check - musi byc starszy
+   matka_biol     int REFERENCES osoby(id), 
+   ojciec_biol    int REFERENCES osoby(id),
    kolor_oczu     int REFERENCES kolory(id),
    kolor_wlosow   int REFERENCES kolory(id),
    religia        int REFERENCES religie(id) -- moga sie zmieniac - chcemy to notowac?
