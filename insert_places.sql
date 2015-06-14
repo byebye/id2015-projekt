@@ -85,7 +85,6 @@ INSERT INTO miejsca(id,nazwa,typ) VALUES
 	(71,'Królestwo Zachodu',3),
 	(72,'Reach',3),
 	(73,'Włości Korony',3),
-	(74,'Za murem',3),
 	(75,'Żelazne wyspy',3),
 	(76,'Północ',3),
 	(77,'Essos',3),

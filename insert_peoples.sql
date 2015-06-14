@@ -69,4 +69,18 @@ INSERT INTO rody_zaleznosci VALUES
 	(10,6,9,1)
 ;
 
+INSERT INTO rody_miejsca SELECT 1, id_miejsce FROM miejsca_krainy WHERE id_kraina = 67; --Arryn
+INSERT INTO rody_miejsca SELECT 2, id_miejsce FROM miejsca_krainy WHERE id_kraina IN(70,73,78); --Baratheon
+INSERT INTO rody_miejsca SELECT 3, id_miejsce FROM miejsca_krainy WHERE id_kraina = 69 AND id_miejsce <> 13; --Bolton
+INSERT INTO rody_miejsca SELECT 5, id_miejsce FROM miejsca_krainy WHERE id_kraina = 68; --Martel
+INSERT INTO rody_miejsca SELECT 6, id_miejsce FROM miejsca_krainy WHERE id_kraina = 72; --Tyrell
+INSERT INTO rody_miejsca SELECT 7, id_miejsce FROM miejsca_krainy WHERE id_kraina = 75; --Greyjoy
+INSERT INTO rody_miejsca VALUES(8,13); --Frey
+INSERT INTO rody_miejsca SELECT 9, id_miejsce FROM miejsca_krainy WHERE id_kraina = 71; --Lannister
+INSERT INTO rody_miejsca SELECT 11,id_miejsce FROM miejsca_krainy WHERE id_kraina = 77; --Targaryen
+INSERT INTO rody_miejsca VALUES (4,11); --Karstark
+INSERT INTO rody_miejsca SELECT 10,id_miejsce FROM miejsca_krainy WHERE id_kraina = 76 AND id_miejsce <> 11; --Stark
+
+
+
 END;

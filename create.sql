@@ -131,7 +131,7 @@ CREATE TABLE rody_wydarzenia(
 CREATE TABLE rody_miejsca(
    id_rodu     int REFERENCES rody(id) NOT NULL,
    id_miejsce  int REFERENCES miejsca(id) NOT NULL,
-   CONSTRAINT rody_ziemie_pk PRIMARY KEY(id_rodu,id_miejsce)
+   CONSTRAINT rody_ziemie_pk PRIMARY KEY(id_miejsce)
 );
 
 CREATE TABLE rody_zaleznosci(
