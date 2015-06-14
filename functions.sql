@@ -261,4 +261,40 @@ $check_wydarzenie_osoba$ LANGUAGE plpgsql;
 CREATE TRIGGER check_wydarzenie_osoba BEFORE INSERT OR UPDATE ON osoby_wydarzenia
    FOR EACH ROW EXECUTE PROCEDURE check_wydarzenie_osoba();
 
+--Trigger: po śmierci osoby automatycznie kończ jego funkcję
+CREATE OR REPLACE FUNCTION update_osoby_funkcje_jesli_smierc() 
+   RETURNS TRIGGER AS $update_osoby_funkcje_jesli_smierc$
+DECLARE
+   wyd record;
+   typ varchar(50);
+   osoba int;
+   data date;
+BEGIN
+   SELECT * FROM wydarzenia WHERE id = NEW.id_wydarzenie INTO wyd;
+   osoba := NEW.id_osoba;
+   typ := (SELECT nazwa FROM wydarzenia_typy WHERE id = wyd.typ);
+   data := (SELECT data FROM wydarzenia WHERE id = NEW.id_wydarzenie);
+
+   IF typ IN ('Narodziny', 'Zgon naturalny', 'Śmierć nienaturalna', 'Pogrzeb') THEN
+      UPDATE osoby_funkcje
+      SET data_zakonczenia=wyd.data
+      WHERE id_osoba = osoba AND data_zakonczenia IS NULL;
+   END IF;
+END;
+$update_osoby_funkcje_jesli_smierc$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_osoby_funkcje_jesli_smierc BEFORE UPDATE ON osoby_wydarzenia
+   FOR EACH ROW EXECUTE PROCEDURE update_osoby_funkcje_jesli_smierc();
+
+--FUNKCJA: ile osób z danego rodu żyło na świecie
+CREATE OR REPLACE FUNCTION ile_osob_zylo(num int)
+   RETURNS int AS $$
+DECLARE
+   result int;
+BEGIN
+   result := (SELECT COUNT(*) FROM osoby_rody O WHERE O.id_rodu = num);
+RETURN result;
+END;
+$$ LANGUAGE plpgsql;
+
 END;
