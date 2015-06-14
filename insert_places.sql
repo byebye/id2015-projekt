@@ -1,5 +1,7 @@
 --zamki
 INSERT INTO miejsca(nazwa,typ) VALUES
+	('Orle Gniazdo',1),
+	('Kamienny Bęben',1),
 	('Smocza Skała',1),
 	('Harrenhal',1),
 	('Koniec Burzy',1),
@@ -9,7 +11,6 @@ INSERT INTO miejsca(nazwa,typ) VALUES
 	('Dreadfort',1),
 	('Czerwona Twierdza',1),
 	('Karhold',1),
-	('Orle Gniazdo',1),
 	('Fosa Cailin',1),
 	('Bliźniaki',1),
 	('Summerhal',1),
@@ -87,7 +88,6 @@ INSERT INTO miejsca(nazwa,typ) VALUES
 
 --ziemie
 INSERT INTO ziemie VALUES
-	--ID|STOLICA|WIELKOSC
 	(1,'duży',NULL),
 	(2,'duży',NULL),
 	(3,'średni',NULL),
@@ -99,3 +99,11 @@ INSERT INTO ziemie VALUES
 	(9,'duży',NULL),
 	(10,'duży',NULL)
 ;
+
+INSERT INTO krainy_ziemie VALUES
+--(1)Dolina arrynów,(2)Dorne,(3)Dorzecze,(4)Krainy Burzy,(5)Królestwo zachodu,(6)Reach,(7)Włości korony,(8)Za murem,(9)Żelazne wyspy,(10)Północ,(11)Essos,(12)Nocna Straż
+	(1,3),(2,4),(3,4),(4,3),(5,4),(6,10),(7,5),(8,12),(9,10),(10,7),(11,10),(12,10),(13,3),(14,6),(15,10),(16,11),(17,2),(18,12),(19,2),
+	(20,3),(21,1),(22,3),(23,3),(24,5),(25,3),(26,12),(27,2),(28,3),(29,12),(30,6),(31,5),(32,11),(33,11),(34,11),(35,11),(36,11),
+	(37,11),(38,11),(39,11),(40,11),(41,11),(42,11),(43,2),(44,11),(45,11),(46,11),(47,11),(48,5),(49,11),(50,10),(51,11),(52,11),
+	(53,11),(54,11),(55,11),(56,11),(57,11),(58,11),(59,11),(60,11),(61,11),(62,11),(63,11),(64,11),(65,7);
+

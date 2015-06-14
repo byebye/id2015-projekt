@@ -12,7 +12,8 @@ INSERT INTO dokumenty_typy(nazwa, wiarygodny) VALUES
 	('Akt prawny', true),
 	('Akt własności', true),
 	('Umowa', true),
-	('Legenda', false)
+	('Legenda', false),
+	('Godło',true)
 ;
 
 --Typy miejsc
