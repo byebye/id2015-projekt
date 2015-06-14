@@ -37,15 +37,14 @@ CREATE TABLE miejsca_dokumenty(
 );
 
 CREATE TABLE ziemie( -- wieksze obszary, zarzadzanie przez rody
-   id          serial PRIMARY KEY,
-   nazwa       varchar(50) NOT NULL,
-   stolica     int REFERENCES miejsca(id) NOT NULL, -- check - musi mieć typ 'miasto'
-   wielkosc    numeric, -- powierzchniowo czy opisowo, np. "duzy", "maly", "sredni"
-   polozenie   varchar(100) 
+   id_miejsce  int REFERENCES miejsca(id) UNIQUE NOT NULL, -- check - nad jednym miejscem moze panowac jeden ród
+   wielkosc    varchar(10) CHECK(wielkosc = 'mały' OR wielkosc = 'średni' OR wielkosc = 'duży'),
+   polozenie   varchar(100),
+   CONSTRAINT ziemie_pk PRIMARY KEY(id_miejsce)
 );
 
 CREATE TABLE ziemie_dokumenty(
-   id_ziemia        int REFERENCES ziemie(id) NOT NULL,
+   id_ziemia        int REFERENCES ziemie(id_miejsce) NOT NULL,
    id_dokument      int REFERENCES dokumenty(id) NOT NULL,
    CONSTRAINT ziemie_dokumenty_pk PRIMARY KEY(id_ziemia, id_dokument) 
 );
@@ -83,7 +82,7 @@ CREATE TABLE kolory(
 CREATE TABLE religie(
    id       serial PRIMARY KEY,
    nazwa    varchar(50),
-   opis     varchar(300) 
+   opis     text
 );
 
 CREATE TABLE religie_dokumenty(
@@ -115,7 +114,7 @@ CREATE TABLE rody(
    id          serial PRIMARY KEY,
    nazwa       varchar(50),
    zalozyciel  int REFERENCES osoby(id),
-   ziemie      int REFERENCES ziemie(id),
+   ziemie      int REFERENCES ziemie(id_miejsce),
     -- moze byc tez np. obrazek wpisany bezposrednio do bazy lub tez wpisany tylko odnosnik w tabeli rody_dokumenty z typem 'godlo'
    godlo       int REFERENCES dokumenty(id),
    dewiza      varchar(300) 

@@ -97,7 +97,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Trigger: rodzice muszą być odpowiedniej płci, starsi od swojego dziecka, żywi (tylko matka) w trakcie narodzin dziecka i jego poczęcia (oboje)
+-- Trigger: rodzice muszą być odpowiedniej płci, starsi od swojego dziecka, a matka żywa w trakcie jego narodzin
 
 CREATE OR REPLACE FUNCTION check_rodzice() 
    RETURNS trigger AS $check_rodzice$
@@ -151,5 +151,23 @@ BEGIN
       FROM get_przodkowie_helper;
 END;
 $$ LANGUAGE plpgsql;
+
+--Function: wszystkie osoby biorące udział w danym wydarzeniu
+CREATE OR REPLACE FUNCTION kto_bral_udzial(id_wydarzenia numeric)
+   RETURNS TABLE(
+      'id osoby' numeric,
+      'imie i nazwisko' varchar(100),
+      'ród' varchar(50)
+   )AS$$
+      BEGIN
+         RETURN QUERY 
+            SELECT 
+               id_osoba,
+               (SELECT imie||' '||nazwisko FROM osoby WHERE id = id_osoba),
+               (SELECT LAST(R.nazwa) FROM rody R JOIN osoby_rody O ON R.id = O.id_rodu WHERE R.id_osoba = id_osoba)
+            FROM osoby_wydarzenia
+            WHERE id_wydarzenie = id_wydarzenia;
+      END;
+$$ LANGUAGE 'plpgsql';
 
 END;
