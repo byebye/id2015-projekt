@@ -39,18 +39,16 @@ CREATE TRIGGER set_dokument_wiarygodny BEFORE INSERT ON dokumenty
 
 -- Function: dla osoby o danym id wyświetla wydarzenia o danym typie (podanym jako nazwa, nie id)
 
-CREATE OR REPLACE FUNCTION get_wydarzenia(osoba int, wydarzenie_typ text) 
-   RETURNS table(id int, data date, nazwa varchar(100), typ int, opis varchar(300), miejsce int) AS $$
+CREATE OR REPLACE FUNCTION get_wydarzenia(osoba int, VARIADIC wydarzenie_typy text[]) 
+   RETURNS SETOF wydarzenia AS $$
 BEGIN
    RETURN QUERY
       SELECT wyd.*
          FROM osoby_wydarzenia os_wyd
          JOIN wydarzenia wyd ON wyd.id = id_wydarzenie
+         JOIN wydarzenia_typy wt ON wt.id = wyd.typ
          WHERE id_osoba = osoba
-         AND wyd.typ = (SELECT typy.id 
-                           FROM wydarzenia_typy typy 
-                           WHERE typy.nazwa = wydarzenie_typ
-                        )
+            AND wt.nazwa = ANY (wydarzenie_typy)
    ;
 END;
 $$ LANGUAGE plpgsql;
@@ -61,9 +59,7 @@ CREATE OR REPLACE FUNCTION get_data_smierci(osoba int)
    RETURNS table(data date) AS $$
 BEGIN
    RETURN QUERY
-      SELECT get_wydarzenia.data FROM get_wydarzenia(osoba, 'Zgon naturalny')
-      UNION 
-      SELECT get_wydarzenia.data FROM get_wydarzenia(osoba, 'Śmierć nienaturalna');
+      SELECT get_wydarzenia.data FROM get_wydarzenia(osoba, 'Zgon naturalny', 'Śmierć nienaturalna');
 END;
 $$ LANGUAGE plpgsql;
 
@@ -261,4 +257,4 @@ $check_wydarzenie_osoba$ LANGUAGE plpgsql;
 CREATE TRIGGER check_wydarzenie_osoba BEFORE INSERT OR UPDATE ON osoby_wydarzenia
    FOR EACH ROW EXECUTE PROCEDURE check_wydarzenie_osoba();
 
-END;
+
