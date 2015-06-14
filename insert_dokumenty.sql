@@ -1,5 +1,5 @@
 --Herby rodów
-INSERT INTO dokumenty(typ,ścieżka,wiarygodny) VALUES
+INSERT INTO dokumenty(typ,sciezka,wiarygodny) VALUES
 	(11,'Graphics/Arryn.png',true),
 	(11,'Graphics/Baratheon.png',true),
 	(11,'Graphics/Bolton.png',true),
