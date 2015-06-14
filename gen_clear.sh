@@ -1,7 +1,7 @@
 #!/bin/bash
 create_file="$1"
 
-echo "-- Skrypt usuwający wszystkie utworzone tabele --"
+# echo "-- Skrypt usuwający wszystkie utworzone tabele --"
 
 grep -iE 'CREATE' "$create_file" | sed -r 's/or\s+replace//i' | while read line; do
    cmd=$(echo $line | awk '{print tolower($2)}')

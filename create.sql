@@ -38,7 +38,7 @@ CREATE TABLE miejsca_dokumenty(
 
 CREATE TABLE ziemie( -- wieksze obszary, zarzadzanie przez rody
    id_miejsce  int REFERENCES miejsca(id) UNIQUE NOT NULL, -- check - nad jednym miejscem moze panowac jeden ród
-   wielkosc    varchar(10) CHECK(wielkosc = 'mały' OR wielkosc = 'średni' OR wielkosc = 'duży'),
+   wielkosc    varchar(10) CHECK(wielkosc IN ('mały', 'średni', 'duży')),
    polozenie   varchar(100),
    CONSTRAINT ziemie_pk PRIMARY KEY(id_miejsce)
 );
