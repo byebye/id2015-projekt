@@ -27,7 +27,8 @@ CREATE TABLE miejsca_typy(
 CREATE TABLE miejsca(
    id          serial PRIMARY KEY,
    nazwa       varchar(50) NOT NULL,
-   typ         int REFERENCES miejsca_typy(id)
+   typ         int REFERENCES miejsca_typy(id),
+   wielkosc    varchar(10) CHECK(wielkosc IN (NULL,'mały', 'średni', 'duży'))
 );
 
 CREATE TABLE miejsca_dokumenty(
@@ -36,23 +37,10 @@ CREATE TABLE miejsca_dokumenty(
    CONSTRAINT miejsca_dokumenty_pk PRIMARY KEY(id_miejsce, id_dokument) 
 );
 
-CREATE TABLE ziemie( -- wieksze obszary, zarzadzanie przez rody
-   id_miejsce  int REFERENCES miejsca(id) UNIQUE NOT NULL, -- check - nad jednym miejscem moze panowac jeden ród
-   wielkosc    varchar(10) CHECK(wielkosc IN ('mały', 'średni', 'duży')),
-   polozenie   varchar(100),
-   CONSTRAINT ziemie_pk PRIMARY KEY(id_miejsce)
-);
-
-CREATE TABLE krainy_ziemie( --krainy geograficzne
-   id_ziemia   int REFERENCES miejsca(id) UNIQUE NOT NULL, --musi nie byc kraina!
+CREATE TABLE miejsca_krainy( --krainy geograficzne
+   id_miejsce  int REFERENCES miejsca(id) UNIQUE NOT NULL, --musi nie byc kraina!
    id_kraina   int REFERENCES miejsca(id) NOT NULL, --musi byc kraina!
-   CONSTRAINT krainy_ziemie_pk PRIMARY KEY(id_kraina,id_ziemia)
-);
-
-CREATE TABLE ziemie_dokumenty(
-   id_ziemia        int REFERENCES ziemie(id_miejsce) NOT NULL,
-   id_dokument      int REFERENCES dokumenty(id) NOT NULL,
-   CONSTRAINT ziemie_dokumenty_pk PRIMARY KEY(id_ziemia, id_dokument) 
+   CONSTRAINT miejsca_krainy_pk PRIMARY KEY(id_kraina,id_miejsce)
 );
 
 -- ********************* wydarzenia *********************
@@ -140,10 +128,10 @@ CREATE TABLE rody_wydarzenia(
    CONSTRAINT rody_wydarzenia_pk PRIMARY KEY(id_rodu, id_wydarzenie) 
 );
 
-CREATE TABLE rody_ziemie(
+CREATE TABLE rody_miejsca(
    id_rodu     int REFERENCES rody(id) NOT NULL,
-   id_ziemia   int REFERENCES ziemie(id_miejsce) NOT NULL,
-   CONSTRAINT rody_ziemie_pk PRIMARY KEY(id_rodu,id_ziemia)
+   id_miejsce  int REFERENCES miejsca(id) NOT NULL,
+   CONSTRAINT rody_ziemie_pk PRIMARY KEY(id_rodu,id_miejsce)
 );
 
 CREATE TABLE rody_zaleznosci(

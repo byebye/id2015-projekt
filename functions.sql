@@ -283,8 +283,8 @@ CREATE OR REPLACE VIEW protoplasci AS
 ;
 
 --TRIGGER: kraina musi miec typ 3
-CREATE OR REPLACE FUNCTION check_krainy_ziemie()
-   RETURNS TRIGGER AS $check_krainy_ziemie$
+CREATE OR REPLACE FUNCTION check_miejsca_krainy()
+   RETURNS TRIGGER AS $check_miejsca_krainy$
 DECLARE
    typ1 int;
    typ2 int;
@@ -299,12 +299,10 @@ BEGIN
    ELSE return NEW;
    END IF;
 END;
-$check_krainy_ziemie$ LANGUAGE plpgsql;
+$check_miejsca_krainy$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_krainy_ziemie BEFORE INSERT OR UPDATE ON krainy_ziemie
-   FOR EACH ROW EXECUTE PROCEDURE check_krainy_ziemie();
-
-END;
+CREATE TRIGGER check_miejsca_krainy BEFORE INSERT OR UPDATE ON miejsca_krainy
+   FOR EACH ROW EXECUTE PROCEDURE check_miejsca_krainy();
 
 --TRIGGER: stolica rodu musi być zamkiem lub miastem
 CREATE OR REPLACE FUNCTION check_rody_stolice()
@@ -323,8 +321,6 @@ $check_rody_stolice$ LANGUAGE plpgsql;
 
 CREATE TRIGGER check_rody_stolice BEFORE INSERT OR UPDATE ON rody
    FOR EACH ROW EXECUTE PROCEDURE check_rody_stolice();
-
-END;
 
 -- Function: dla danej osoby zwraca wszystkich małżonków wraz z datami rozpoczęcia i zakończenia związku
 
