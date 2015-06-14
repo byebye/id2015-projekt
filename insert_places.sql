@@ -13,7 +13,7 @@ INSERT INTO miejsca(nazwa,typ) VALUES
 	('Fosa Cailin',1),
 	('Bliźniaki',1),
 	('Summerhal',1),
-	('Torrhen\'s Square',1),
+	('Torrhens Square',1),
 	('Ashemark',1),
 	('Blackmont',1),
 	('Dębowa Tarcza',1),
@@ -66,10 +66,11 @@ INSERT INTO miejsca(nazwa,typ) VALUES
 	('Bhorash',2),
 	('Ny Sar',2),
 	('Ar Noy',2),
-	('Saer Mell',2)
+	('Saer Mell',2),
+	('Królewska Przystań',2)
 ;
 
---Krainy
+--krainy
 INSERT INTO miejsca(nazwa,typ) VALUES
 	('Dolina Arrynów',3),
 	('Dorne',3),
@@ -82,3 +83,19 @@ INSERT INTO miejsca(nazwa,typ) VALUES
 	('Żelazne wyspy',3),
 	('Północ',3),
 	('Essos',3)
+;
+
+--ziemie
+INSERT INTO ziemie VALUES
+	--ID|STOLICA|WIELKOSC
+	(1,'duży',NULL),
+	(2,'duży',NULL),
+	(3,'średni',NULL),
+	(4,'mały',NULL),
+	(5,'duży',NULL),
+	(6,'średni',NULL),
+	(7,'średni',NULL),
+	(8,'duży',NULL),
+	(9,'duży',NULL),
+	(10,'duży',NULL)
+;
