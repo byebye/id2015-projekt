@@ -257,4 +257,4 @@ $check_wydarzenie_osoba$ LANGUAGE plpgsql;
 CREATE TRIGGER check_wydarzenie_osoba BEFORE INSERT OR UPDATE ON osoby_wydarzenia
    FOR EACH ROW EXECUTE PROCEDURE check_wydarzenie_osoba();
 
-
+END;
