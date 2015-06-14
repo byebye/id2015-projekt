@@ -101,16 +101,16 @@ INSERT INTO rody(id,nazwa,zalozyciel,stolica,godlo,dewiza) VALUES
 ;
 
 INSERT INTO rody_zaleznosci VALUES
-	(1,1,2,1),
-	(2,10,2,1),
-	(3,9,2,1),
-	(4,11,2,1),
-	(5,7,2,1),
-	(6,8,1,1),
-	(7,3,10,1),
-	(8,4,10,1),
-	(9,5,9,1),
-	(10,6,9,1)
+	(DEFAULT,1,2,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,10,2,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,9,2,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,11,2,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,7,2,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,8,1,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,3,10,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,4,10,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,5,9,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,6,9,(select id from wydarzenia where nazwa = 'Akt podziału królestwa'))
 ;
 
 INSERT INTO rody_miejsca SELECT 1, id_miejsce FROM miejsca_krainy WHERE id_kraina = 67; --Arryn
@@ -124,6 +124,7 @@ INSERT INTO rody_miejsca SELECT 9, id_miejsce FROM miejsca_krainy WHERE id_krain
 INSERT INTO rody_miejsca SELECT 11,id_miejsce FROM miejsca_krainy WHERE id_kraina = 77; --Targaryen
 INSERT INTO rody_miejsca VALUES (4,11); --Karstark
 INSERT INTO rody_miejsca SELECT 10,id_miejsce FROM miejsca_krainy WHERE id_kraina = 76 AND id_miejsce <> 11; --Stark
+
 
 
 END;

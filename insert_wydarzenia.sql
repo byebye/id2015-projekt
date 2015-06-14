@@ -1,6 +1,6 @@
 BEGIN;
 INSERT INTO wydarzenia VALUES
-	(1,date '0001-01-01','Akt podziału królestwa',20,'Początek ery, dzień, w którym spotkały się wszystkie rody, ustaliły granicę między państwami oraz przynależność, godła i brawy, narodziny założycieli',65),
+	(DEFAULT,date '0001-01-01','Akt podziału królestwa',20,'Początek ery, dzień, w którym spotkały się wszystkie rody, ustaliły granicę między państwami oraz przynależność, godła i brawy, narodziny założycieli',65),
 	(2,date '0020-01-02','Narodziny Brandona Starka',1,NULL,6),
 	(3,date '0021-05-30','Narodziny Eddarda Starka',1,NULL,6),
 	(4,date '0023-07-15','Narodziny Benjena Starka',1,NULL,6),

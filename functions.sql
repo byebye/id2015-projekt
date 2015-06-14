@@ -1,3 +1,4 @@
+-- Funkcje i widoki
 BEGIN;
 
 -- Trigger: jeśli przy wstawianiu do tabeli 'dokumenty' nie zostanie zdefiniowana wiarygodność, to zostanie przypisana domyślna wartość ustalona w 'dokumenty_typy'
@@ -385,5 +386,17 @@ BEGIN
    RETURN;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Widok pozwalający na wstawianie wydarzenia wraz z listą uczestników (oraz jego pokazywanie)
+
+CREATE OR REPLACE VIEW wydarzenia_z_lista_uczestnikow AS
+    SELECT w.id as id_wydarzenia, w.nazwa as nazwa_wydarzenia, w.data as data_wydarzenia, w.miejsce as miejsce_wydarzenia,
+        w.opis as opis_wydarzenia,  array_agg(o.imie || ' ' || o.nazwisko) as lista_uczestnikow
+        FROM wydarzenia w 
+        JOIN osoby_wydarzenia ow
+            on w.id = ow.id_wydarzenie
+        JOIN osoby o
+            on ow.id_osoba = o.id
+        GROUP BY w.id;
 
 END;
