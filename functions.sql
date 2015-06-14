@@ -231,4 +231,30 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Trigger: sprawdza, czy osoba dodana do wydarzenia była w jego trakcie żywa (wyłączając narodziny, śmierć, pogrzeb)
+
+CREATE OR REPLACE FUNCTION check_wydarzenie_osoba()
+   RETURNS trigger AS $check_wydarzenie_osoba$
+DECLARE
+   wyd record;
+   typ varchar(50);
+BEGIN
+   SELECT * FROM wydarzenia w WHERE w.id = NEW.id_wydarzenie INTO wyd;
+   typ = (SELECT nazwa 
+            wydarzenia_typy wt
+            WHERE wt.id = wyd.typ;
+         );
+   IF typ IN ('Narodziny', 'Zgon naturalny', 'Śmierć nienaturalna', 'Pogrzeb') THEN
+      RETURN NEW;
+   ELSIF NOT czy_byla_zywa(NEW.id_osoba, wyd.data) THEN
+      RAISE EXCEPTION 'Osoba musi być żywa w trakcie danego wydarzenia';
+   ELSE
+      RETURN NEW;
+   END IF; 
+END;
+$check_wydarzenie_osoba$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_wydarzenie_osoba BEFORE INSERT OR UPDATE ON osoby_wydarzenia
+   FOR EACH ROW EXECUTE PROCEDURE check_wydarzenie_osoba();
+
 END;
