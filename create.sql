@@ -122,7 +122,7 @@ CREATE TABLE rody(
    id          serial PRIMARY KEY,
    nazwa       varchar(50),
    zalozyciel  int REFERENCES osoby(id),
-   stolica     int REFERENCES ziemie(id_miejsce), --musi być miasto
+   stolica     int REFERENCES ziemie(id_miejsce),
     -- moze byc tez np. obrazek wpisany bezposrednio do bazy lub tez wpisany tylko odnosnik w tabeli rody_dokumenty z typem 'godlo'
    godlo       int REFERENCES dokumenty(id),
    dewiza      varchar(300) 
@@ -182,7 +182,6 @@ CREATE TABLE osoby_wydarzenia(
    id_osoba             int REFERENCES osoby(id) NOT NULL,
    id_wydarzenie        int REFERENCES wydarzenia(id) NOT NULL,
    CONSTRAINT osoby_wydarzenia_pk PRIMARY KEY(id_osoba, id_wydarzenie)
-   -- trigger - np. dla danej osoby tylko jedne możliwe narodziny, śmierć - chyba, że była wskrzeszona, wtedy wskrzeszenie musi być po śmierci :)
 );
 
 END;
