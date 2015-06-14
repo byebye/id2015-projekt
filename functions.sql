@@ -177,6 +177,19 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Function: sprawdza, czy dane dwie osoby są spokrewnione w sensie biologicznym, tzn. czy mają wspólnych przodków
+
+CREATE OR REPLACE FUNCTION czy_spokrewnieni(osoba_A int, osoba_B int) 
+   RETURNS bool AS $$
+BEGIN
+   RETURN 
+      (SELECT array_agg(id) FROM get_przodkowie(osoba_A))
+      &&
+      (SELECT array_agg(id) FROM get_przodkowie(osoba_B))
+   ;
+END;
+$$ LANGUAGE plpgsql;
+
 --Function: wszystkie osoby biorące udział w danym wydarzeniu
 CREATE OR REPLACE FUNCTION kto_bral_udzial(id_wydarzenia numeric)
    RETURNS TABLE(
