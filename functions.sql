@@ -166,21 +166,16 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
---Function: wszystkie osoby biorące udział w danym wydarzeniu
-CREATE OR REPLACE FUNCTION kto_bral_udzial(id_wydarzenia numeric)
-   RETURNS TABLE(
-      "id osoby" numeric,
-      "imie i nazwisko" varchar(100),
-      "ród" varchar(50)
-   ) AS $$
+-- Function: wszystkie osoby biorące udział w danym wydarzeniu
+
+CREATE OR REPLACE FUNCTION kto_bral_udzial(wydarzenie int)
+   RETURNS SETOF osoby AS $$
 BEGIN
    RETURN QUERY 
-      SELECT 
-         id_osoba,
-         (SELECT imie||' '||nazwisko FROM osoby WHERE id = id_osoba),
-         (SELECT LAST(R.nazwa) FROM rody R JOIN osoby_rody O ON R.id = O.id_rodu WHERE R.id_osoba = id_osoba)
-      FROM osoby_wydarzenia
-      WHERE id_wydarzenie = id_wydarzenia;
+      SELECT osoby.*
+      FROM osoby_wydarzenia ow
+      JOIN osoby ON osoby.id = ow.id_osoba
+      WHERE ow.id_wydarzenie = wydarzenie;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -273,7 +268,7 @@ RETURN result;
 END;
 $$ LANGUAGE plpgsql;
 
---WIDOK: protoplaści rodów
+-- WIDOK: protoplaści rodów
 CREATE OR REPLACE VIEW protoplasci AS
    SELECT
       R.nazwa AS nazwa, O.imie ||' '||O.nazwisko AS "Imię i nazwisko"
@@ -322,6 +317,7 @@ $check_rody_stolice$ LANGUAGE plpgsql;
 CREATE TRIGGER check_rody_stolice BEFORE INSERT OR UPDATE ON rody
    FOR EACH ROW EXECUTE PROCEDURE check_rody_stolice();
 
+
 -- Function: dla danej osoby zwraca wszystkich małżonków wraz z datami rozpoczęcia i zakończenia związku
 
 CREATE OR REPLACE FUNCTION get_malzenstwa(osoba int)
@@ -329,7 +325,7 @@ CREATE OR REPLACE FUNCTION get_malzenstwa(osoba int)
 DECLARE
    malzonki_id int[];
 BEGIN
-   malzonki_id = (SELECT array_agg(os.id)
+   malzonki_id := (SELECT array_agg(os.id)
                      FROM get_wydarzenia(osoba, 'Małżeństwo') AS w
                      JOIN osoby_wydarzenia ow ON ow.id_wydarzenie = w.id
                      JOIN osoby os ON os.id = ow.id_osoba
@@ -366,22 +362,22 @@ CREATE OR REPLACE FUNCTION get_bekarci(osoba int)
 DECLARE
    dziecko record;
    dziecko_narodziny date;
-   rodzic2 int;
+   prawdziwy_rodzic int;
    malzonek int;
 BEGIN
    FOR dziecko IN (SELECT * FROM get_potomkowie(osoba, 1) WHERE poziom > 0)
    LOOP
       dziecko_narodziny := (get_wydarzenia(dziecko.id, 'Narodziny')).data;
-      rodzic2 := (SELECT p.id 
-                     FROM get_przodkowie(dziecko.id, 1) AS p
-                     WHERE poziom > 0 AND p.id != osoba
-                  );
+      prawdziwy_rodzic := (SELECT p.id 
+                              FROM get_przodkowie(dziecko.id, 1) AS p
+                              WHERE poziom > 0 AND p.id != osoba
+                           );
       malzonek := (SELECT m.malzonek_id 
                      FROM get_malzenstwa(osoba) AS m
                      WHERE m.poczatek <= dziecko_narodziny 
                         AND dziecko_narodziny <= m.koniec
                   );
-      IF rodzic2 != malzonek THEN
+      IF prawdziwy_rodzic != malzonek THEN
          RETURN NEXT;
       END IF;
    END LOOP;

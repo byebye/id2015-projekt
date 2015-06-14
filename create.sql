@@ -59,8 +59,8 @@ CREATE TABLE wydarzenia(
    miejsce           int REFERENCES miejsca(id)
 );
 
-CREATE INDEX ON wydarzenia(data);
-CREATE INDEX ON wydarzenia(typ);
+CREATE INDEX wydarzenia_data_index ON wydarzenia(data);
+CREATE INDEX wydarzenia_typ_index ON wydarzenia(typ);
 
 CREATE TABLE wydarzenia_dokumenty(
    id_wydarzenie         int REFERENCES wydarzenia(id) NOT NULL,
