@@ -25,6 +25,7 @@ INSERT INTO funkcje(nazwa) VALUES
 	('Nestor rodu')
 ;
 
+--założyciele rodów
 INSERT INTO osoby(imie,nazwisko,plec,matka_biol,ojciec_biol,kolor_oczu,kolor_wlosow,religia) VALUES
 	('Artys','Arryn','Mężczyzna',NULL,NULL,1,2,3),
 	('Orys','Baratheon','Mężczyzna',NULL,NULL,1,1,3),
@@ -36,7 +37,7 @@ INSERT INTO osoby(imie,nazwisko,plec,matka_biol,ojciec_biol,kolor_oczu,kolor_wlo
 	('Walder','Frey','Mężczyzna',NULL,NULL,1,1,3),
 	('Lann','Sprytny','Mężczyzna',NULL,NULL,1,1,3),
 	('Bran','Budowniczy','Mężczyzna',NULL,NULL,1,1,4),
-	('Aegon','Targaryen','Mężczyzna',NULL,NULL,1,1,3)
+	('Aegon','Targaryen','Mężczyzna',NULL,NULL,1,1,3),
 ;
 
 
