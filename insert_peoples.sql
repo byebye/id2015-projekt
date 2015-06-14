@@ -57,16 +57,16 @@ INSERT INTO rody(id,nazwa,zalozyciel,stolica,godlo,dewiza) VALUES
 ;
 
 INSERT INTO rody_zaleznosci VALUES
-	(DEFAULT,1,2,1),
-	(DEFAULT,10,2,1),
-	(DEFAULT,9,2,1),
-	(DEFAULT,11,2,1),
-	(DEFAULT,7,2,1),
-	(DEFAULT,8,1,1),
-	(DEFAULT,3,10,1),
-	(DEFAULT,4,10,1),
-	(DEFAULT,5,9,1),
-	(DEFAULT,6,9,1)
+	(DEFAULT,1,2,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,10,2,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,9,2,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,11,2,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,7,2,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,8,1,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,3,10,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,4,10,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,5,9,(select id from wydarzenia where nazwa = 'Akt podziału królestwa')),
+	(DEFAULT,6,9,(select id from wydarzenia where nazwa = 'Akt podziału królestwa'))
 ;
 
 INSERT INTO rody_miejsca SELECT 1, id_miejsce FROM miejsca_krainy WHERE id_kraina = 67; --Arryn
