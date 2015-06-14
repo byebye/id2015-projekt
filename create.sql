@@ -63,8 +63,10 @@ CREATE TABLE wydarzenia(
    typ               int REFERENCES wydarzenia_typy(id),
    opis              varchar(300), -- krotki opis, wiecej w dokumentach
    miejsce           int REFERENCES miejsca(id)
-   -- ta tabela bedzie duza, wiec trzeba zrobic dla niej indeks dla szybszego wyszukiwania
 );
+
+CREATE INDEX ON wydarzenia(data);
+CREATE INDEX ON wydarzenia(typ);
 
 CREATE TABLE wydarzenia_dokumenty(
    id_wydarzenie         int REFERENCES wydarzenia(id) NOT NULL,

@@ -208,4 +208,27 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Function: zwraca id wszystkich osób żyjących w danym przedziale czasu
+
+CREATE OR REPLACE FUNCTION get_zyjacy(pocz date, koniec date)
+   RETURNS SETOF int AS $$
+DECLARE
+   narodziny date;
+   smierc date;
+   id int;
+BEGIN
+   FOR id in (SELECT osoby.id FROM osoby) LOOP
+      narodziny = (get_wydarzenia(id, 'Narodziny')).data;
+      smierc = get_data_smierci(id);
+      IF (narodziny < koniec AND coalesce(koniec <= smierc, true))
+         OR (narodziny <= pocz AND coalesce(pocz < smierc, true))
+         OR (pocz <= narodziny AND smierc <= koniec)
+      THEN
+         RETURN NEXT id;
+      END IF;
+   END LOOP;
+   RETURN;
+END;
+$$ LANGUAGE plpgsql;
+
 END;
