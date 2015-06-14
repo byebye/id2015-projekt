@@ -325,3 +325,42 @@ CREATE TRIGGER check_rody_stolice BEFORE INSERT OR UPDATE ON rody
    FOR EACH ROW EXECUTE PROCEDURE check_rody_stolice();
 
 END;
+
+-- Function: dla danej osoby zwraca wszystkich małżonków wraz z datami rozpoczęcia i zakończenia związku
+
+CREATE OR REPLACE FUNCTION get_malzenstwa(osoba int)
+   RETURNS TABLE(malzonek_id int, poczatek date, koniec date) AS $$
+DECLARE
+   malzonki_id int[];
+BEGIN
+   malzonki_id = (SELECT array_agg(os.id)
+                     FROM get_wydarzenia(osoba, 'Małżeństwo') AS w
+                     JOIN osoby_wydarzenia ow ON ow.id_wydarzenie = w.id
+                     JOIN osoby os ON os.id = ow.id_osoba
+                     WHERE os.id != osoba);
+   IF array_length(malzonki_id, 1) = 0 THEN
+      RETURN QUERY SELECT NULL;
+   ELSE
+      RETURN QUERY  
+         SELECT a.malzonek_id, 
+                a.poczatek,
+                CASE WHEN a.koniec = '' THEN NULL ELSE a.koniec::date END
+            FROM (
+               SELECT 
+                  unnest(malzonki_id) AS malzonek_id,
+                  unnest((
+                     SELECT array_agg(data)
+                        FROM get_wydarzenia(osoba, 'Małżeństwo')
+                  )) AS poczatek,
+                  unnest((
+                     (SELECT array_agg(data)
+                        FROM get_wydarzenia(osoba, 'Rozwód', 'Zgon naturalny', 'Śmierć nienaturalna')
+                     )::text[] || ''::text
+                  )) AS koniec
+                  LIMIT (array_length(malzonki_id, 1))
+            ) a;
+      END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+END;
