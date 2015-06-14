@@ -359,4 +359,34 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Function: zwraca wszystkich bękartów danej osoby - nieślubne dzieci
+
+CREATE OR REPLACE FUNCTION get_bekarci(osoba int)
+   RETURNS TABLE(id_dziecko int) AS $$
+DECLARE
+   dziecko record;
+   dziecko_narodziny date;
+   rodzic2 int;
+   malzonek int;
+BEGIN
+   FOR dziecko IN (SELECT * FROM get_potomkowie(osoba, 1) WHERE poziom > 0)
+   LOOP
+      dziecko_narodziny := (get_wydarzenia(dziecko.id, 'Narodziny')).data;
+      rodzic2 := (SELECT p.id 
+                     FROM get_przodkowie(dziecko.id, 1) AS p
+                     WHERE poziom > 0 AND p.id != osoba
+                  );
+      malzonek := (SELECT m.malzonek_id 
+                     FROM get_malzenstwa(osoba) AS m
+                     WHERE m.poczatek <= dziecko_narodziny 
+                        AND dziecko_narodziny <= m.koniec
+                  );
+      IF rodzic2 != malzonek THEN
+         RETURN NEXT;
+      END IF;
+   END LOOP;
+   RETURN;
+END;
+$$ LANGUAGE plpgsql;
+
 END;
