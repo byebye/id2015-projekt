@@ -36,11 +36,17 @@ CREATE TABLE miejsca_dokumenty(
    CONSTRAINT miejsca_dokumenty_pk PRIMARY KEY(id_miejsce, id_dokument) 
 );
 
-CREATE TABLE ziemie( -- wieksze obszary, zarzadzanie przez rody
-   id_miejsce  int REFERENCES miejsca(id) UNIQUE NOT NULL, -- check - nad jednym miejscem moze panowac jeden ród
+CREATE TABLE ziemie( -- miasta, które zarządzają zamkami, wsiami itp. żeby przejąć jakiś obszar, trzeba zająć miasto
+   id_miejsce  int REFERENCES miejsca(id) NOT NULL, --musi być miasto
    wielkosc    varchar(10) CHECK(wielkosc = 'mały' OR wielkosc = 'średni' OR wielkosc = 'duży'),
    polozenie   varchar(100),
    CONSTRAINT ziemie_pk PRIMARY KEY(id_miejsce)
+);
+
+CREATE TABLE krainy_ziemie( --krainy geograficzne
+   id_kraina   int REFERENCES miejsca(id) NOT NULL,
+   id_ziemia   int REFERENCES miejsca(id) UNIQUE NOT NULL,
+   CONSTRAINT krainy_ziemie_pk PRIMARY KEY(id_kraina,id_ziemia)
 );
 
 CREATE TABLE ziemie_dokumenty(
@@ -115,7 +121,7 @@ CREATE TABLE rody(
    id          serial PRIMARY KEY,
    nazwa       varchar(50),
    zalozyciel  int REFERENCES osoby(id),
-   ziemie      int REFERENCES ziemie(id_miejsce),
+   stolica     int REFERENCES ziemie(id_miejsce), --musi być miasto
     -- moze byc tez np. obrazek wpisany bezposrednio do bazy lub tez wpisany tylko odnosnik w tabeli rody_dokumenty z typem 'godlo'
    godlo       int REFERENCES dokumenty(id),
    dewiza      varchar(300) 
@@ -131,6 +137,12 @@ CREATE TABLE rody_wydarzenia(
    id_rodu             int REFERENCES rody(id) NOT NULL,
    id_wydarzenie       int REFERENCES wydarzenia(id) NOT NULL,
    CONSTRAINT rody_wydarzenia_pk PRIMARY KEY(id_rodu, id_wydarzenie) 
+);
+
+CREATE TABLE rody_ziemie(
+   id_rodu     int REFERENCES rody(id) NOT NULL,
+   id_ziemia   int REFERENCES ziemie(id_miejsce) NOT NULL,
+   CONSTRAINT rody_ziemie_pk PRIMARY KEY(id_rodu,id_ziemia)
 );
 
 CREATE TABLE rody_zaleznosci(

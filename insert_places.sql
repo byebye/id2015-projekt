@@ -87,7 +87,6 @@ INSERT INTO miejsca(nazwa,typ) VALUES
 
 --ziemie
 INSERT INTO ziemie VALUES
-	--ID|STOLICA|WIELKOSC
 	(1,'duży',NULL),
 	(2,'duży',NULL),
 	(3,'średni',NULL),
