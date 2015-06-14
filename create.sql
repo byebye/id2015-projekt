@@ -36,15 +36,9 @@ CREATE TABLE miejsca_dokumenty(
    CONSTRAINT miejsca_dokumenty_pk PRIMARY KEY(id_miejsce, id_dokument) 
 );
 
-<<<<<<< HEAD
-CREATE TABLE ziemie( -- miasta, które zarządzają zamkami, wsiami itp. żeby przejąć jakiś obszar, trzeba zająć miasto
-   id_miejsce  int REFERENCES miejsca(id) NOT NULL, --musi być miasto
-   wielkosc    varchar(10) CHECK(wielkosc = 'mały' OR wielkosc = 'średni' OR wielkosc = 'duży'),
-=======
 CREATE TABLE ziemie( -- wieksze obszary, zarzadzanie przez rody
    id_miejsce  int REFERENCES miejsca(id) UNIQUE NOT NULL, -- check - nad jednym miejscem moze panowac jeden ród
    wielkosc    varchar(10) CHECK(wielkosc IN ('mały', 'średni', 'duży')),
->>>>>>> f36d604f4444c7409c9efeabc131326d5fd7992e
    polozenie   varchar(100),
    CONSTRAINT ziemie_pk PRIMARY KEY(id_miejsce)
 );
