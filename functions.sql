@@ -387,6 +387,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+-- Funkcja get
+
+create or replace function get(tablename text, seeked_col_name text, known_col_name text, known_value text) returns text
+as
+$$
+BEGIN
+    return (select seeked_col_name from tablename where known_col_name = known_value)::text;
+END;
+$$LANGUAGE PLPGSQL;
+
 -- Widok pozwalający na wstawianie wydarzenia wraz z listą uczestników (oraz jego pokazywanie)
 
 CREATE OR REPLACE VIEW wydarzenia_z_lista_uczestnikow AS
