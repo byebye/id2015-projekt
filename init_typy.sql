@@ -19,11 +19,7 @@ INSERT INTO dokumenty_typy(nazwa, wiarygodny) VALUES
 INSERT INTO miejsca_typy(nazwa) VALUES
 	('Zamek'),
 	('Miasto'),
-	('Miasteczko'),
-	('Lenno'),
-	('Wieś'),
-	('Ziemia'),
-	('Twierdza')
+	('Krainy')
 ;
 
 --Typy wydarzen
