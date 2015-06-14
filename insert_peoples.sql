@@ -41,6 +41,50 @@ INSERT INTO osoby VALUES
 	(11,'Aegon','Targaryen','Mężczyzna',NULL,NULL,1,1,3)
 ;
 
+--Ród Starków
+INSERT INTO osoby VALUES
+	(12,'Brandon','Stark','Mężczyzna',10,NULL,1,1,4),
+	(13,'Eddard','Stark','Mężczyzna',10,NULL,1,1,4),
+	(14,'Benjen','Stark','Mężczyzna',10,NULL,1,1,4),
+	(15,'Lyanna','Stark','Kobieta',10,NULL,1,1,4),
+	(16,'Robb','Stark','Mężczyzna',13,17,1,1,4),
+	(18,'Sansa','Stark','Kobieta',13,17,1,1,4)
+;
+
+--Ród Lannisterów
+INSERT INTO osoby VALUES
+	(19,'Tytos','Lannister','Mężczyzna',9,NULL,1,1,3),
+	(23,'Tywin','Lannister','Mężczyzna',19,20,1,1,3),
+	(24,'Kevan','Lannister','Mężczyzna',19,29,1,1,3)
+;
+
+--Ród Targaryenów
+INSERT INTO osoby VALUES
+	(21,'Rhaegar','Targaryen',11,NULL,1,1,3),
+	(22,'Jon','Targaryen',21,15,1,1,3)
+;
+--Randomy
+INSERT INTO osoby VALUES
+	(17,'Catelyn','Tully','Kobieta',NULL,NULL,1,1,3),
+	(20,'Jayne','Marbrant','Kobieta',NULL,NULL,1,1,3),
+	(25,'Tygetta','Hill','Kobieta',23,NULL,1,1,3),
+	(26,'Gerion','Hill','Mężczyzna',23,NULL,1,1,3)
+;
+
+INSERT INTO osoby_wydarzenia VALUES
+	(1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1),(8,1),(9,1),(10,1),(11,1),
+	(12,2),(12,7),(12,8),
+	(13,3),(13,9),
+	(14,4),
+	(15,5),(15,13),
+	(16,11),
+	(18,17),
+	(17,6),(17,7),(17,9),
+	(19,15),(19,16),
+	(20,16),
+	(21,18),(21,13),
+	(22,12),(22,14)
+;
 
 INSERT INTO rody(id,nazwa,zalozyciel,stolica,godlo,dewiza) VALUES
 	(1,'Arryn',1,1,1,'Tak wysoko, jak honor.'),
@@ -80,7 +124,6 @@ INSERT INTO rody_miejsca SELECT 9, id_miejsce FROM miejsca_krainy WHERE id_krain
 INSERT INTO rody_miejsca SELECT 11,id_miejsce FROM miejsca_krainy WHERE id_kraina = 77; --Targaryen
 INSERT INTO rody_miejsca VALUES (4,11); --Karstark
 INSERT INTO rody_miejsca SELECT 10,id_miejsce FROM miejsca_krainy WHERE id_kraina = 76 AND id_miejsce <> 11; --Stark
-
 
 
 END;

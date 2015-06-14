@@ -44,7 +44,8 @@ INSERT INTO wydarzenia_typy(id, nazwa) VALUES
 	(17, 'Aneksja ziem'),
 	(18, 'Banicja'),
 	(19, 'Rozejm'),
-	(20, 'Początek świata')
+	(20, 'Początek świata'),
+	(21, 'Adopcja')
 ;
 
 END;

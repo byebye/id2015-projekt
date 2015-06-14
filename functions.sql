@@ -1,7 +1,6 @@
 BEGIN;
 
 -- Trigger: jeśli przy wstawianiu do tabeli 'dokumenty' nie zostanie zdefiniowana wiarygodność, to zostanie przypisana domyślna wartość ustalona w 'dokumenty_typy'
-
 CREATE OR REPLACE FUNCTION set_dokument_wiarygodny() 
    RETURNS trigger AS $set_dokument_wiarygodny$
 BEGIN
@@ -81,6 +80,8 @@ DECLARE
    matka record;
    ojciec record;
 BEGIN
+      IF NEW.matka_biol = NULL OR NEW.ojciec_biol = NULL THEN RETURN NEW;
+      END IF;
       SELECT id, plec FROM osoby WHERE id = NEW.matka_biol INTO matka;
       SELECT id, plec FROM osoby WHERE id = NEW.ojciec_biol INTO ojciec;
       IF matka.plec != 'Kobieta' OR ojciec.plec != 'Mężczyzna' THEN
