@@ -274,3 +274,12 @@ END;
 $$ LANGUAGE plpgsql;
 
 END;
+
+--WIDOK: protoplaści rodów
+CREATE OR REPLACE VIEW protoplasci AS
+   SELECT
+      R.nazwa AS nazwa, O.imie ||' '||O.nazwisko AS "Imię i nazwisko"
+   FROM
+      rody R 
+      JOIN osoby O ON R.zalozyciel = O.id
+;
