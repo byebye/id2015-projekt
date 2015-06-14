@@ -96,8 +96,8 @@ CREATE TABLE funkcje(
 
 CREATE TABLE osoby(
    id             serial PRIMARY KEY,
-   imie           varchar(50),
-   nazwisko       varchar(50),
+   imie           varchar(50) NOT NULL,
+   nazwisko       varchar(50) NOT NULL,
    plec           char(9) CHECK (plec = 'Kobieta' OR plec = 'Mężczyzna'),
    matka_biol     int REFERENCES osoby(id), 
    ojciec_biol    int REFERENCES osoby(id),

@@ -57,16 +57,16 @@ INSERT INTO rody(id,nazwa,zalozyciel,stolica,godlo,dewiza) VALUES
 ;
 
 INSERT INTO rody_zaleznosci VALUES
-	(1,1,2,1),
-	(2,10,2,1),
-	(3,9,2,1),
-	(4,11,2,1),
-	(5,7,2,1),
-	(6,8,1,1),
-	(7,3,10,1),
-	(8,4,10,1),
-	(9,5,9,1),
-	(10,6,9,1)
+	(DEFAULT,1,2,1),
+	(DEFAULT,10,2,1),
+	(DEFAULT,9,2,1),
+	(DEFAULT,11,2,1),
+	(DEFAULT,7,2,1),
+	(DEFAULT,8,1,1),
+	(DEFAULT,3,10,1),
+	(DEFAULT,4,10,1),
+	(DEFAULT,5,9,1),
+	(DEFAULT,6,9,1)
 ;
 
 INSERT INTO rody_miejsca SELECT 1, id_miejsce FROM miejsca_krainy WHERE id_kraina = 67; --Arryn
