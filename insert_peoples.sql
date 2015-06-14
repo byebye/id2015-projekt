@@ -42,7 +42,7 @@ INSERT INTO osoby VALUES
 ;
 
 
-INSERT INTO rody(nazwa,zalozyciel,stolica,godlo,dewiza) VALUES
+INSERT INTO rody(id,nazwa,zalozyciel,stolica,godlo,dewiza) VALUES
 	(1,'Arryn',1,1,1,'Tak wysoko, jak honor.'),
 	(2,'Baratheon',2,5,2,'Nasza jest furia.'),
 	(3,'Bolton',3,9,3,'Nasze ostrza są ostre.'),
