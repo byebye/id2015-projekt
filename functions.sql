@@ -120,9 +120,9 @@ $check_rodzice$ LANGUAGE plpgsql;
 CREATE TRIGGER check_rodzice BEFORE INSERT OR UPDATE ON osoby
    FOR EACH ROW EXECUTE PROCEDURE check_rodzice();
 
--- Function: dla podanej osoby i liczby n zwraca id wszystkich przodków n-kroków wstecz wraz ze stopniem pokrewieństwa
+-- Function: dla podanej osoby i liczby n zwraca id wszystkich przodków n-kroków wstecz wraz ze stopniem pokrewieństwa. Dla n = -1 zwraca wszystkich przodków
 
-CREATE OR REPLACE FUNCTION get_przodkowie(osoba int, n int) 
+CREATE OR REPLACE FUNCTION get_przodkowie(osoba int, n int DEFAULT -1) 
    RETURNS table(id int, poziom int) AS $$
 BEGIN
    RETURN QUERY
@@ -133,7 +133,7 @@ BEGIN
       UNION
          SELECT osoby.id, przodek.poziom + 1
          FROM osoby, get_przodkowie_helper przodek
-         WHERE przodek.poziom < n
+         WHERE (przodek.poziom < n OR n = -1)
                AND 
                (
                   osoby.id = (SELECT matka_biol
@@ -152,9 +152,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: dla podanej osoby i liczby n zwraca id wszystkich potomków n-kroków w przód wraz ze stopniem pokrewieństwa
+-- Function: dla podanej osoby i liczby n zwraca id wszystkich potomków n-kroków w przód wraz ze stopniem pokrewieństwa. Dla n = -1 zwraca wszystkich potomków
 
-CREATE OR REPLACE FUNCTION get_potomkowie(osoba int, n int) 
+CREATE OR REPLACE FUNCTION get_potomkowie(osoba int, n int DEFAULT -1) 
    RETURNS table(id int, poziom int) AS $$
 BEGIN
    RETURN QUERY
@@ -165,7 +165,7 @@ BEGIN
       UNION
          SELECT osoby.id, potomek.poziom + 1
          FROM osoby, get_potomkowie_helper potomek
-         WHERE potomek.poziom < n
+         WHERE (potomek.poziom < n OR n = -1)
                AND 
                osoby.id IN (SELECT osoby.id
                               FROM osoby
@@ -174,6 +174,19 @@ BEGIN
       )
       SELECT *
       FROM get_potomkowie_helper;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function: sprawdza, czy dane dwie osoby są spokrewnione w sensie biologicznym, tzn. czy mają wspólnych przodków
+
+CREATE OR REPLACE FUNCTION czy_spokrewnieni(osoba_A int, osoba_B int) 
+   RETURNS bool AS $$
+BEGIN
+   RETURN 
+      (SELECT array_agg(id) FROM get_przodkowie(osoba_A))
+      &&
+      (SELECT array_agg(id) FROM get_przodkowie(osoba_B))
+   ;
 END;
 $$ LANGUAGE plpgsql;
 
