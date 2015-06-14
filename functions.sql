@@ -232,7 +232,7 @@ $check_wydarzenie_osoba$ LANGUAGE plpgsql;
 CREATE TRIGGER check_wydarzenie_osoba BEFORE INSERT OR UPDATE ON osoby_wydarzenia
    FOR EACH ROW EXECUTE PROCEDURE check_wydarzenie_osoba();
 
--- Trigger: po śmierci osoby automatycznie kończ jego funkcję
+--Trigger: po śmierci osoby automatycznie kończ jego funkcję
 CREATE OR REPLACE FUNCTION update_osoby_funkcje_jesli_smierc() 
    RETURNS TRIGGER AS $update_osoby_funkcje_jesli_smierc$
 DECLARE
@@ -257,7 +257,7 @@ $update_osoby_funkcje_jesli_smierc$ LANGUAGE plpgsql;
 CREATE TRIGGER update_osoby_funkcje_jesli_smierc BEFORE UPDATE ON osoby_wydarzenia
    FOR EACH ROW EXECUTE PROCEDURE update_osoby_funkcje_jesli_smierc();
 
--- FUNKCJA: ile osób z danego rodu żyło na świecie
+--FUNKCJA: ile osób z danego rodu żyło na świecie
 CREATE OR REPLACE FUNCTION ile_osob_zylo(num int)
    RETURNS int AS $$
 DECLARE
@@ -277,9 +277,9 @@ CREATE OR REPLACE VIEW protoplasci AS
       JOIN osoby O ON R.zalozyciel = O.id
 ;
 
--- TRIGGER: kraina musi miec typ 3
-CREATE OR REPLACE FUNCTION check_krainy_ziemie()
-   RETURNS TRIGGER AS $check_krainy_ziemie$
+--TRIGGER: kraina musi miec typ 3
+CREATE OR REPLACE FUNCTION check_miejsca_krainy()
+   RETURNS TRIGGER AS $check_miejsca_krainy$
 DECLARE
    typ1 int;
    typ2 int;
@@ -294,14 +294,12 @@ BEGIN
    ELSE return NEW;
    END IF;
 END;
-$check_krainy_ziemie$ LANGUAGE plpgsql;
+$check_miejsca_krainy$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_krainy_ziemie BEFORE INSERT OR UPDATE ON krainy_ziemie
-   FOR EACH ROW EXECUTE PROCEDURE check_krainy_ziemie();
+CREATE TRIGGER check_miejsca_krainy BEFORE INSERT OR UPDATE ON miejsca_krainy
+   FOR EACH ROW EXECUTE PROCEDURE check_miejsca_krainy();
 
-END;
-
--- TRIGGER: stolica rodu musi być zamkiem lub miastem
+--TRIGGER: stolica rodu musi być zamkiem lub miastem
 CREATE OR REPLACE FUNCTION check_rody_stolice()
    RETURNS TRIGGER AS $check_rody_stolice$
 DECLARE
@@ -319,7 +317,6 @@ $check_rody_stolice$ LANGUAGE plpgsql;
 CREATE TRIGGER check_rody_stolice BEFORE INSERT OR UPDATE ON rody
    FOR EACH ROW EXECUTE PROCEDURE check_rody_stolice();
 
-END;
 
 -- Function: dla danej osoby zwraca wszystkich małżonków wraz z datami rozpoczęcia i zakończenia związku
 
