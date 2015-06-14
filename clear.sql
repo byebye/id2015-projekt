@@ -22,6 +22,8 @@ DROP TABLE IF EXISTS osoby_rody CASCADE;
 DROP TABLE IF EXISTS osoby_funkcje CASCADE;
 DROP TABLE IF EXISTS osoby_dokumenty CASCADE;
 DROP TABLE IF EXISTS osoby_wydarzenia CASCADE;
+DROP TABLE IF EXISTS rody_ziemie;
+DROP TABLE IF EXISTS krainy_ziemie;
 DROP FUNCTION IF EXISTS check_stolica_miasto () CASCADE;
 DROP TRIGGER IF EXISTS check_stolica_miasto ON ziemie CASCADE;
 DROP FUNCTION IF EXISTS set_dokument_wiarygodny () CASCADE;

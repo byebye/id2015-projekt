@@ -122,7 +122,7 @@ CREATE TABLE rody(
    id          serial PRIMARY KEY,
    nazwa       varchar(50),
    zalozyciel  int REFERENCES osoby(id),
-   stolica     int REFERENCES ziemie(id_miejsce),
+   stolica     int REFERENCES miejsca(id),
     -- moze byc tez np. obrazek wpisany bezposrednio do bazy lub tez wpisany tylko odnosnik w tabeli rody_dokumenty z typem 'godlo'
    godlo       int REFERENCES dokumenty(id),
    dewiza      varchar(300) 
