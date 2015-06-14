@@ -28,17 +28,17 @@ INSERT INTO funkcje(id,nazwa) VALUES
 
 --założyciele rodów
 INSERT INTO osoby VALUES
-	(1,'Artys','Arryn','Mężczyzna',NULL,NULL,1,2,3),
-	(2,'Orys','Baratheon','Mężczyzna',NULL,NULL,1,1,3),
-	(3,'Morys','Bolton','Mężczyzna',NULL,NULL,1,1,4),
-	(4,'Karlon','Stark','Mężczyzna',NULL,NULL,1,1,4),
-	(5,'Morgan','Martell','Mężczyzna',NULL,NULL,1,1,3),
-	(6,'Allester','Tyrell','Mężczyzna',NULL,NULL,1,1,3),
-	(7,'Szary','Król','Mężczyzna',NULL,NULL,1,1,5),
-	(8,'Walder','Frey','Mężczyzna',NULL,NULL,1,1,3),
-	(9,'Lann','Sprytny','Mężczyzna',NULL,NULL,1,1,3),
-	(10,'Bran','Budowniczy','Mężczyzna',NULL,NULL,1,1,4),
-	(11,'Aegon','Targaryen','Mężczyzna',NULL,NULL,1,1,3)
+	(DEFAULT,'Artys','Arryn','Mężczyzna',NULL,NULL,1,2,3),
+	(DEFAULT,'Orys','Baratheon','Mężczyzna',NULL,NULL,1,1,3),
+	(DEFAULT,'Morys','Bolton','Mężczyzna',NULL,NULL,1,1,4),
+	(DEFAULT,'Karlon','Stark','Mężczyzna',NULL,NULL,1,1,4),
+	(DEFAULT,'Morgan','Martell','Mężczyzna',NULL,NULL,1,1,3),
+	(DEFAULT,'Allester','Tyrell','Mężczyzna',NULL,NULL,1,1,3),
+	(DEFAULT,'Szary','Król','Mężczyzna',NULL,NULL,1,1,5),
+	(DEFAULT,'Walder','Frey','Mężczyzna',NULL,NULL,1,1,3),
+	(DEFAULT,'Lann','Sprytny','Mężczyzna',NULL,NULL,1,1,3),
+	(DEFAULT,'Bran','Budowniczy','Mężczyzna',NULL,NULL,1,1,4),
+	(DEFAULT,'Aegon','Targaryen','Mężczyzna',NULL,NULL,1,1,3)
 ;
 
 --Ród Starków
