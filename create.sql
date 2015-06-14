@@ -44,8 +44,8 @@ CREATE TABLE ziemie( -- wieksze obszary, zarzadzanie przez rody
 );
 
 CREATE TABLE krainy_ziemie( --krainy geograficzne
-   id_kraina   int REFERENCES miejsca(id) NOT NULL,
-   id_ziemia   int REFERENCES miejsca(id) UNIQUE NOT NULL,
+   id_ziemia   int REFERENCES miejsca(id) UNIQUE NOT NULL, --musi nie byc kraina!
+   id_kraina   int REFERENCES miejsca(id) NOT NULL, --musi byc kraina!
    CONSTRAINT krainy_ziemie_pk PRIMARY KEY(id_kraina,id_ziemia)
 );
 

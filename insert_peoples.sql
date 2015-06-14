@@ -23,3 +23,6 @@ INSERT INTO funkcje(nazwa) VALUES
 	('Namiestnik'),
 	('Nestor rodu')
 ;
+
+INSERT INTO rody(nazwa,zalozyciel,stolica,godlo,dewiza) VALUES
+	()
