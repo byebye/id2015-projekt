@@ -3,50 +3,50 @@ BEGIN;
 
 --Typy dokumentow
 INSERT INTO dokumenty_typy(id, nazwa, wiarygodny) VALUES
-	(1, 'Obraz', false),
-	(2, 'Portret', false),
-	(3, 'Kronika', true),
-	(4, 'Ballada', false),
-	(5, 'Pieśń', false),
-	(6, 'List', false),
-	(7, 'Akt prawny', true),
-	(8, 'Akt własności', true),
-	(9, 'Umowa', true),
-	(10, 'Legenda', false),
-	(11, 'Godło',true)
+	(DEFAULT, 'Obraz', false),
+	(DEFAULT, 'Portret', false),
+	(DEFAULT, 'Kronika', true),
+	(DEFAULT, 'Ballada', false),
+	(DEFAULT, 'Pieśń', false),
+	(DEFAULT, 'List', false),
+	(DEFAULT, 'Akt prawny', true),
+	(DEFAULT, 'Akt własności', true),
+	(DEFAULT, 'Umowa', true),
+	(DEFAULT, 'Legenda', false),
+	(DEFAULT, 'Godło',true)
 ;
 
 --Typy miejsc
 INSERT INTO miejsca_typy(id, nazwa) VALUES
-	(1, 'Zamek'),
-	(2, 'Miasto'),
-	(3, 'Krainy')
+	(DEFAULT, 'Zamek'),
+	(DEFAULT, 'Miasto'),
+	(DEFAULT, 'Krainy')
 ;
 
 --Typy wydarzen
 INSERT INTO wydarzenia_typy(id, nazwa) VALUES
-	(1, 'Narodziny'),
-	(2, 'Zgon naturalny'),
-	(3, 'Śmierć nienaturalna'),
-	(4, 'Pogrzeb'),
-	(5, 'Zabójstwo'),
-	(6, 'Wojna'),
-	(7, 'Bitwa'),
-	(8, 'Koronowanie'),
-	(9, 'Chrzciny'),
-	(10, 'Wydziedziczenie'),
-	(11, 'Rozwód'),
-	(12, 'Małżeństwo'),
-	(13, 'Nadanie ziem'),
-	(14, 'Uznanie bękarta'),
-	(15, 'Wstąpienie do Nocnej Straży'),
-	(16, 'Pasowanie'),
-	(17, 'Aneksja ziem'),
-	(18, 'Banicja'),
-	(19, 'Rozejm'),
-	(20, 'Początek świata'),
-	(21, 'Adopcja'),
-	(22, 'Przejęcie władzy')
+	(DEFAULT, 'Narodziny'),
+	(DEFAULT, 'Zgon naturalny'),
+	(DEFAULT, 'Śmierć nienaturalna'),
+	(DEFAULT, 'Pogrzeb'),
+	(DEFAULT, 'Zabójstwo'),
+	(DEFAULT, 'Wojna'),
+	(DEFAULT, 'Bitwa'),
+	(DEFAULT, 'Koronowanie'),
+	(DEFAULT, 'Chrzciny'),
+	(DEFAULT, 'Wydziedziczenie'),
+	(DEFAULT, 'Rozwód'),
+	(DEFAULT, 'Małżeństwo'),
+	(DEFAULT, 'Nadanie ziem'),
+	(DEFAULT, 'Uznanie bękarta'),
+	(DEFAULT, 'Wstąpienie do Nocnej Straży'),
+	(DEFAULT, 'Pasowanie'),
+	(DEFAULT, 'Aneksja ziem'),
+	(DEFAULT, 'Banicja'),
+	(DEFAULT, 'Rozejm'),
+	(DEFAULT, 'Początek świata'),
+	(DEFAULT, 'Adopcja'),
+	(DEFAULT, 'Przejęcie władzy')
 ;
 
 END;

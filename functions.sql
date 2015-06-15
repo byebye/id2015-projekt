@@ -435,3 +435,5 @@ DO INSTEAD (
         select getId('osoby', 'imie || ' ||  quote_literal(' ')  || ' || nazwisko', unnest(NEW.lista_uczestnikow)), getId('wydarzenia', 'nazwa', NEW.nazwa_wydarzenia);
 );
 END;
+
+

@@ -80,17 +80,17 @@ INSERT INTO osoby_wydarzenia VALUES
 ;
 
 INSERT INTO rody(id,nazwa,zalozyciel,stolica,godlo,dewiza) VALUES
-	(1,'Arryn',1,1,1,'Tak wysoko, jak honor.'),
-	(2,'Baratheon',2,5,2,'Nasza jest furia.'),
-	(3,'Bolton',3,9,3,'Nasze ostrza są ostre.'),
-	(4,'Karstark',4,11,4,'Słońce Zimy'),
-	(5,'Martell',5,43,5,'Niezachwiani, Nieugięci, Niezłomni'),
-	(6,'Tyrell',6,30,6,'Zbieramy siły.'),
-	(7,'Greyjoy',7,66,7,'My nie siejemy.'),
-	(8,'Frey',8,13,8,'Brak danych'),
-	(9,'Lannister',9,7,9,'Słuchajcie mego ryku'),
-	(10,'Stark',10,6,10,'Nadchodzi zima'),
-	(11,'Targaryen',11,36,11,'Krew i ogień')
+	(DEFAULT,'Arryn',1,1,1,'Tak wysoko, jak honor.'),
+	(DEFAULT,'Baratheon',2,5,2,'Nasza jest furia.'),
+	(DEFAULT,'Bolton',3,9,3,'Nasze ostrza są ostre.'),
+	(DEFAULT,'Karstark',4,11,4,'Słońce Zimy'),
+	(DEFAULT,'Martell',5,43,5,'Niezachwiani, Nieugięci, Niezłomni'),
+	(DEFAULT,'Tyrell',6,30,6,'Zbieramy siły.'),
+	(DEFAULT,'Greyjoy',7,66,7,'My nie siejemy.'),
+	(DEFAULT,'Frey',8,13,8,'Brak danych'),
+	(DEFAULT,'Lannister',9,7,9,'Słuchajcie mego ryku'),
+	(DEFAULT,'Stark',10,6,10,'Nadchodzi zima'),
+	(DEFAULT,'Targaryen',11,36,11,'Krew i ogień')
 ;
 
 INSERT INTO rody_zaleznosci VALUES
