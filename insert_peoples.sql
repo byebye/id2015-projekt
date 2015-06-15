@@ -126,5 +126,15 @@ INSERT INTO rody_miejsca VALUES (4,11); --Karstark
 INSERT INTO rody_miejsca SELECT 10,id_miejsce FROM miejsca_krainy WHERE id_kraina = 76 AND id_miejsce <> 11; --Stark
 
 
+--wstaw wydarzenie o aneksji ziem
+INSERT INTO wydarzenia(data,nazwa,typ,opis,miejsce)
+	SELECT date '0001-01-01','Nadanie ziem',13,NULL,id FROM miejsca;
+
+INSERT INTO rody_wydarzenia
+	SELECT R.id_rodu, W.id
+	FROM wydarzenia W JOIN rody_miejsca R ON R.id_miejsce = W.miejsce
+	WHERE W.typ = 13
+;
+
 
 END;

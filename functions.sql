@@ -399,4 +399,19 @@ CREATE OR REPLACE VIEW wydarzenia_z_lista_uczestnikow AS
             on ow.id_osoba = o.id
         GROUP BY w.id;
 
+-- Funkcja: historia zmian panowania nad daną ziemią
+CREATE OR REPLACE FUNCTION historia_zmian(mid int)
+   RETURNS TABLE(kto varchar(50), kiedy date) AS $$
+
+BEGIN
+   RETURN QUERY
+      SELECT R.nazwa, W.data
+      FROM
+         (wydarzenia W JOIN rody_wydarzenia RW ON W.id = RW.id_wydarzenie) JOIN rody R ON RW.id_rodu = R.id
+      WHERE (W.typ = 13 OR W.typ = 17) AND W.miejsce = mid
+      ORDER BY W.data;
+END;
+$$ LANGUAGE plpgsql;
+
+
 END;
