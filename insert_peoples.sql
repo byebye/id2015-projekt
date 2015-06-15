@@ -57,8 +57,19 @@ INSERT INTO osoby VALUES
 INSERT INTO osoby VALUES
 	(19,'Tytos','Lannister','Mężczyzna',NULL,9,1,1,3),
 	(23,'Tywin','Lannister','Mężczyzna',20,19,1,1,3),
-	(24,'Kevan','Lannister','Mężczyzna',20,19,1,1,3)
+	(24,'Kevan','Lannister','Mężczyzna',20,19,1,1,3),
+	(27,'Joanna','Lannister','Kobieta',NULL,NULL,1,5,3),
+	(28,'Cercei','Lannister','Kobieta',27,23,1,5,3),
+	(29,'Jaime', 'Lannister','Mężczyzna',27,23,2,5,3),
+	(30,'Tyrion','Lannister','Mężczyzna',27,23,3,5,3),
+	(31,'Joffrey','Baratheon','Mężczyzna',28,29,2,5,3),
+	(32,'Myrcella','Baratheon','Kobieta',28,29,2,5,3),
+	(33,'Tommen','Baratheon','Mężczyzna',28,29,2,5,3)
 ;
+
+--Tyrell
+INSERT INTO osoby VALUES
+	(34,'Margaery','Tyrell','Kobieta',NULL,NULL,3,3,NULL);
 
 --Ród Targaryenów
 INSERT INTO osoby VALUES
@@ -83,7 +94,14 @@ INSERT INTO osoby_wydarzenia VALUES
 	(19,15),(19,16),
 	(20,16),
 	(21,18),(21,13),
-	(22,12),(22,14)
+	(22,12),(22,14),
+	(28,20),(29,21),(30,22),(31,23),(32,24),(33,25),
+	(34,26),
+	(34,27),(31,27), -- ślub Joeffreya i Maergary
+	(31,28), -- śmierć Joeffreya
+	(34,29),(33,29), -- ślub Tommena i Maergary
+	(30,30),(18,30), -- ślub Sansy i Tyriona
+	(23,31),(27,31) -- ślub Tywina i Joanny
 ;
 
 INSERT INTO rody(id,nazwa,zalozyciel,stolica,godlo,dewiza) VALUES
