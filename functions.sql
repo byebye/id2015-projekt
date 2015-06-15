@@ -387,11 +387,25 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+-- Funkcja get
+
+create or replace function getId(tablename text, known_col_name text, known_value text) returns int
+as
+$$
+DECLARE
+    res int;
+BEGIN
+    EXECUTE format('SELECT id from %s WHERE %s = %s', tablename, known_col_name, quote_literal(known_value)) INTO res;
+    return res;
+END;
+$$LANGUAGE PLPGSQL;
+
 -- Widok pozwalający na wstawianie wydarzenia wraz z listą uczestników (oraz jego pokazywanie)
 
 CREATE OR REPLACE VIEW wydarzenia_z_lista_uczestnikow AS
     SELECT w.id as id_wydarzenia, w.nazwa as nazwa_wydarzenia, w.data as data_wydarzenia, w.miejsce as miejsce_wydarzenia,
-        w.opis as opis_wydarzenia,  array_agg(o.imie || ' ' || o.nazwisko) as lista_uczestnikow
+        w.opis as opis_wydarzenia, w.typ as typ_wydarzenia,  array_agg(o.imie || ' ' || o.nazwisko) as lista_uczestnikow
         FROM wydarzenia w 
         JOIN osoby_wydarzenia ow
             on w.id = ow.id_wydarzenie
@@ -399,4 +413,25 @@ CREATE OR REPLACE VIEW wydarzenia_z_lista_uczestnikow AS
             on ow.id_osoba = o.id
         GROUP BY w.id;
 
+-- Funkcja: historia zmian panowania nad daną ziemią
+CREATE OR REPLACE FUNCTION historia_zmian(mid int)
+   RETURNS TABLE(kto varchar(50), kiedy date) AS $$
+
+BEGIN
+   RETURN QUERY
+      SELECT R.nazwa, W.data
+      FROM
+         (wydarzenia W JOIN rody_wydarzenia RW ON W.id = RW.id_wydarzenie) JOIN rody R ON RW.id_rodu = R.id
+      WHERE (W.typ = 13 OR W.typ = 17) AND W.miejsce = mid
+      ORDER BY W.data;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE RULE wydarzenia_z_lista_uczestnikow_on_insert AS ON INSERT TO wydarzenia_z_lista_uczestnikow
+DO INSTEAD (
+    INSERT INTO wydarzenia(data, nazwa, typ, opis, miejsce) VALUES
+    (NEW.data_wydarzenia, NEW.nazwa_wydarzenia, NEW.typ_wydarzenia, NEW.opis_wydarzenia, NEW.miejsce_wydarzenia);
+    INSERT INTO osoby_wydarzenia
+        select getId('osoby', 'imie || ' ||  quote_literal(' ')  || ' || nazwisko', unnest(NEW.lista_uczestnikow)), getId('wydarzenia', 'nazwa', NEW.nazwa_wydarzenia);
+);
 END;

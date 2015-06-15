@@ -28,58 +28,43 @@ INSERT INTO funkcje(id,nazwa) VALUES
 
 --założyciele rodów
 INSERT INTO osoby VALUES
-	(1,'Artys','Arryn','Mężczyzna',NULL,NULL,1,2,3),
-	(2,'Orys','Baratheon','Mężczyzna',NULL,NULL,1,1,3),
-	(3,'Morys','Bolton','Mężczyzna',NULL,NULL,1,1,4),
-	(4,'Karlon','Stark','Mężczyzna',NULL,NULL,1,1,4),
-	(5,'Morgan','Martell','Mężczyzna',NULL,NULL,1,1,3),
-	(6,'Allester','Tyrell','Mężczyzna',NULL,NULL,1,1,3),
-	(7,'Szary','Król','Mężczyzna',NULL,NULL,1,1,5),
-	(8,'Walder','Frey','Mężczyzna',NULL,NULL,1,1,3),
-	(9,'Lann','Sprytny','Mężczyzna',NULL,NULL,1,1,3),
-	(10,'Bran','Budowniczy','Mężczyzna',NULL,NULL,1,1,4),
-	(11,'Aegon','Targaryen','Mężczyzna',NULL,NULL,1,1,3)
+	(DEFAULT,'Artys','Arryn','Mężczyzna',NULL,NULL,1,2,3),
+	(DEFAULT,'Orys','Baratheon','Mężczyzna',NULL,NULL,1,1,3),
+	(DEFAULT,'Morys','Bolton','Mężczyzna',NULL,NULL,1,1,4),
+	(DEFAULT,'Karlon','Stark','Mężczyzna',NULL,NULL,1,1,4),
+	(DEFAULT,'Morgan','Martell','Mężczyzna',NULL,NULL,1,1,3),
+	(DEFAULT,'Allester','Tyrell','Mężczyzna',NULL,NULL,1,1,3),
+	(DEFAULT,'Szary','Król','Mężczyzna',NULL,NULL,1,1,5),
+	(DEFAULT,'Walder','Frey','Mężczyzna',NULL,NULL,1,1,3),
+	(DEFAULT,'Lann','Sprytny','Mężczyzna',NULL,NULL,1,1,3),
+	(DEFAULT,'Bran','Budowniczy','Mężczyzna',NULL,NULL,1,1,4),
+	(DEFAULT,'Aegon','Targaryen','Mężczyzna',NULL,NULL,1,1,3)
 ;
 
 --Ród Starków
 INSERT INTO osoby VALUES
-	(17,'Catelyn','Tully','Kobieta',NULL,NULL,1,1,3),
-	(20,'Jayne','Marbrant','Kobieta',NULL,NULL,1,1,3),
-	(12,'Brandon','Stark','Mężczyzna',NULL,10,1,1,4),
-	(13,'Eddard','Stark','Mężczyzna',NULL,10,1,1,4),
-	(14,'Benjen','Stark','Mężczyzna',NULL,10,1,1,4),
-	(15,'Lyanna','Stark','Kobieta',NULL,10,1,1,4),
-	(16,'Robb','Stark','Mężczyzna',17,13,1,1,4),
-	(18,'Sansa','Stark','Kobieta',17,13,1,1,4)
-;
-
---Ród Lannisterów
-INSERT INTO osoby VALUES
-	(19,'Tytos','Lannister','Mężczyzna',NULL,9,1,1,3),
-	(23,'Tywin','Lannister','Mężczyzna',20,19,1,1,3),
-	(24,'Kevan','Lannister','Mężczyzna',20,19,1,1,3),
-	(27,'Joanna','Lannister','Kobieta',NULL,NULL,1,5,3),
-	(28,'Cercei','Lannister','Kobieta',27,23,1,5,3),
-	(29,'Jaime', 'Lannister','Mężczyzna',27,23,2,5,3),
-	(30,'Tyrion','Lannister','Mężczyzna',27,23,3,5,3),
-	(31,'Joffrey','Baratheon','Mężczyzna',28,29,2,5,3),
-	(32,'Myrcella','Baratheon','Kobieta',28,29,2,5,3),
-	(33,'Tommen','Baratheon','Mężczyzna',28,29,2,5,3)
-;
-
---Tyrell
-INSERT INTO osoby VALUES
-	(34,'Margaery','Tyrell','Kobieta',NULL,NULL,3,3,NULL);
-
---Ród Targaryenów
-INSERT INTO osoby VALUES
-	(21,'Rhaegar','Targaryen','Mężczyzna',NULL,11,1,1,3),
-	(22,'Jon','Targaryen','Mężczyzna',15,21,1,1,3)
-;
---Randomy
-INSERT INTO osoby VALUES
-	(25,'Tygetta','Hill','Kobieta',NULL,23,1,1,3),
-	(26,'Gerion','Hill','Mężczyzna',NULL,23,1,1,3)
+	(DEFAULT,'Brandon','Stark','Mężczyzna',NULL,10,1,1,4),
+	(DEFAULT,'Eddard','Stark','Mężczyzna',NULL,10,1,1,4),
+	(DEFAULT,'Benjen','Stark','Mężczyzna',NULL,10,1,1,4),
+	(DEFAULT,'Lyanna','Stark','Kobieta',NULL,10,1,1,4),
+	(DEFAULT,'Robb','Stark','Mężczyzna',17,13,1,1,4),
+	(DEFAULT,'Catelyn','Tully','Kobieta',NULL,NULL,1,1,3),
+	(DEFAULT,'Sansa','Stark','Kobieta',17,13,1,1,4),
+	(DEFAULT,'Tytos','Lannister','Mężczyzna',NULL,9,1,1,3),
+	(DEFAULT,'Jayne','Marbrant','Kobieta',NULL,NULL,1,1,3),
+	(DEFAULT,'Rhaegar','Targaryen','Mężczyzna',NULL,11,1,1,3),
+	(DEFAULT,'Jon','Targaryen','Mężczyzna',15,21,1,1,3),
+	(DEFAULT,'Tywin','Lannister','Mężczyzna',20,19,1,1,3),
+	(DEFAULT,'Kevan','Lannister','Mężczyzna',20,19,1,1,3),
+	(DEFAULT,'Tygetta','Hill','Kobieta',NULL,23,1,1,3),
+	(DEFAULT,'Gerion','Hill','Mężczyzna',NULL,23,1,1,3),
+	(DEFAULT,'Joanna','Lannister','Kobieta',NULL,NULL,1,5,3),
+	(DEFAULT,'Cercei','Lannister','Kobieta',27,23,1,5,3),
+	(DEFAULT,'Jaime', 'Lannister','Mężczyzna',27,23,2,5,3),
+	(DEFAULT,'Tyrion','Lannister','Mężczyzna',27,23,3,5,3),
+	(DEFAULT,'Joffrey','Baratheon','Mężczyzna',28,29,2,5,3),
+	(DEFAULT,'Myrcella','Baratheon','Kobieta',28,29,2,5,3),
+	(DEFAULT,'Tommen','Baratheon','Mężczyzna',28,29,2,5,3)
 ;
 
 INSERT INTO osoby_wydarzenia VALUES
@@ -143,6 +128,16 @@ INSERT INTO rody_miejsca SELECT 11,id_miejsce FROM miejsca_krainy WHERE id_krain
 INSERT INTO rody_miejsca VALUES (4,11); --Karstark
 INSERT INTO rody_miejsca SELECT 10,id_miejsce FROM miejsca_krainy WHERE id_kraina = 76 AND id_miejsce <> 11; --Stark
 
+
+--wstaw wydarzenie o aneksji ziem
+INSERT INTO wydarzenia(data,nazwa,typ,opis,miejsce)
+	SELECT date '0001-01-01','Nadanie ziem',13,NULL,id FROM miejsca;
+
+INSERT INTO rody_wydarzenia
+	SELECT R.id_rodu, W.id
+	FROM wydarzenia W JOIN rody_miejsca R ON R.id_miejsce = W.miejsce
+	WHERE W.typ = 13
+;
 
 
 END;
