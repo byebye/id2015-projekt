@@ -390,11 +390,14 @@ $$ LANGUAGE plpgsql;
 
 -- Funkcja get
 
-create or replace function get(tablename text, seeked_col_name text, known_col_name text, known_value text) returns text
+create or replace function getId(tablename text, known_col_name text, known_value text) returns int
 as
 $$
+DECLARE
+    res int;
 BEGIN
-    return (select seeked_col_name from tablename where known_col_name = known_value)::text;
+    EXECUTE format('SELECT id from %s WHERE %s = %s', tablename, known_col_name, quote_literal(known_value)) INTO res;
+    return res;
 END;
 $$LANGUAGE PLPGSQL;
 
