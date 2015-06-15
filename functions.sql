@@ -445,6 +445,12 @@ BEGIN
 END;
 $$LANGUAGE PLPGSQL;
 
+CREATE OR REPLACE VIEW podboje AS select nazwa, (select kto from historia_zmian(id)) AS, (select kiedy from historia_zmian(id)) from miejsca WHERE typ <> 3;
+
+CREATE RULE insert_podboje AS ON INSERT TO podboje DO INSTEAD(
+   UPDATE rody_miejsca SET id_rodu = (SELECT id FROM rody WHERE nazwa = NEW.kto) WHERE id_miejsce = (Select id FROM miejsca WHERE nazwa = NEW.nazwa);
+   INSERT INTO wydarzenia VALUES (DEFAULT,NEW.kiedy,'Przejęcie '||NEW.nazwa,17,NULL,(SELECT id FROM miejsca WHERE nazwa = NEW.nazwa));
+);
 END;
 
 
