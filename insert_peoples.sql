@@ -64,7 +64,8 @@ INSERT INTO osoby VALUES
 	(DEFAULT,'Tyrion','Lannister','Mężczyzna',27,23,3,5,3),
 	(DEFAULT,'Joffrey','Baratheon','Mężczyzna',28,29,2,5,3),
 	(DEFAULT,'Myrcella','Baratheon','Kobieta',28,29,2,5,3),
-	(DEFAULT,'Tommen','Baratheon','Mężczyzna',28,29,2,5,3)
+	(DEFAULT,'Tommen','Baratheon','Mężczyzna',28,29,2,5,3),
+	(DEFAULT,'Margaery','Tyrell','Kobieta',NULL,NULL,3,3,NULL)
 ;
 
 INSERT INTO osoby_wydarzenia VALUES

@@ -29,7 +29,8 @@ INSERT INTO wydarzenia VALUES
 	(DEFAULT, '0060-05-01','Ślub Joeffreya Lannistera i Margaery Tyrell',12,NULL,65),
 	(DEFAULT, '0060-05-30','Śmierć Joeffreya Lannistera',3,NULL,65),
 	(DEFAULT, '0060-09-20','Ślub Tommena Lannistera i Margaery Tyrell',12,NULL,65),
-	(DEFAULT, '0060-05-25','Ślub Sansy Stark i Tyriona Lannistera',12,NULL,65)
+	(DEFAULT, '0060-05-25','Ślub Sansy Stark i Tyriona Lannistera',12,NULL,65),
+	(DEFAULT, '0029-10-25','Ślub Tywina Lannistera i Joanny',12,NULL,7)
 ;
 
 END;
