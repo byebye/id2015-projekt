@@ -377,10 +377,10 @@ BEGIN
       malzonek := (SELECT m.malzonek_id 
                      FROM get_malzenstwa(osoba) AS m
                      WHERE m.poczatek <= dziecko_narodziny 
-                        AND dziecko_narodziny <= m.koniec
+                        AND coalesce(dziecko_narodziny <= m.koniec, true)
                   );
-      IF prawdziwy_rodzic != malzonek THEN
-         RETURN NEXT;
+      IF malzonek IS NULL OR prawdziwy_rodzic != malzonek THEN
+         RETURN QUERY SELECT dziecko.id;
       END IF;
    END LOOP;
    RETURN;
