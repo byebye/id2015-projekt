@@ -434,6 +434,17 @@ DO INSTEAD (
     INSERT INTO osoby_wydarzenia
         select getId('osoby', 'imie || ' ||  quote_literal(' ')  || ' || nazwisko', unnest(NEW.lista_uczestnikow)), getId('wydarzenia', 'nazwa', NEW.nazwa_wydarzenia);
 );
+
+CREATE OR REPLACE FUNCTION  wszystkie_osoby_piastujace_stanowisko(stanowisko text) returns table(imie text, nazwisko text) as
+$$
+BEGIN
+    return QUERY SELECT o.imie::text, o.nazwisko::text from osoby o
+    join osoby_funkcje  ofu on o.id = ofu.id_osoba
+    join funkcje f on f.id = ofu.id_funkcja
+    where f.nazwa = stanowisko;
+END;
+$$LANGUAGE PLPGSQL;
+
 END;
 
 

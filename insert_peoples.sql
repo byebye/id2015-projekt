@@ -41,7 +41,7 @@ INSERT INTO osoby VALUES
 	(DEFAULT,'Aegon','Targaryen','Mężczyzna',NULL,NULL,1,1,3)
 ;
 
---Ród Starków, Lannisterów i Targaryenów w kolejności z dupy
+--Ród Starków
 INSERT INTO osoby VALUES
 	(DEFAULT,'Brandon','Stark','Mężczyzna',NULL,10,1,1,4),
 	(DEFAULT,'Eddard','Stark','Mężczyzna',NULL,10,1,1,4),
@@ -55,13 +55,17 @@ INSERT INTO osoby VALUES
 	(DEFAULT,'Rhaegar','Targaryen','Mężczyzna',NULL,11,1,1,3),
 	(DEFAULT,'Jon','Targaryen','Mężczyzna',15,21,1,1,3),
 	(DEFAULT,'Tywin','Lannister','Mężczyzna',20,19,1,1,3),
-	(DEFAULT,'Kevan','Lannister','Mężczyzna',20,19,1,1,3)
-;
-
---Randomy
-INSERT INTO osoby VALUES
+	(DEFAULT,'Kevan','Lannister','Mężczyzna',20,19,1,1,3),
 	(DEFAULT,'Tygetta','Hill','Kobieta',NULL,23,1,1,3),
-	(DEFAULT,'Gerion','Hill','Mężczyzna',NULL,23,1,1,3)
+	(DEFAULT,'Gerion','Hill','Mężczyzna',NULL,23,1,1,3),
+	(DEFAULT,'Joanna','Lannister','Kobieta',NULL,NULL,1,5,3),
+	(DEFAULT,'Cercei','Lannister','Kobieta',27,23,1,5,3),
+	(DEFAULT,'Jaime', 'Lannister','Mężczyzna',27,23,2,5,3),
+	(DEFAULT,'Tyrion','Lannister','Mężczyzna',27,23,3,5,3),
+	(DEFAULT,'Joffrey','Baratheon','Mężczyzna',28,29,2,5,3),
+	(DEFAULT,'Myrcella','Baratheon','Kobieta',28,29,2,5,3),
+	(DEFAULT,'Tommen','Baratheon','Mężczyzna',28,29,2,5,3),
+	(DEFAULT,'Margaery','Tyrell','Kobieta',NULL,NULL,3,3,NULL)
 ;
 
 INSERT INTO osoby_wydarzenia VALUES
@@ -76,7 +80,14 @@ INSERT INTO osoby_wydarzenia VALUES
 	(19,15),(19,16),
 	(20,16),
 	(21,18),(21,13),
-	(22,12),(22,14)
+	(22,12),(22,14),
+	(28,20),(29,21),(30,22),(31,23),(32,24),(33,25),
+	(34,26),
+	(34,27),(31,27), -- ślub Joeffreya i Maergary
+	(31,28), -- śmierć Joeffreya
+	(34,29),(33,29), -- ślub Tommena i Maergary
+	(30,30),(18,30), -- ślub Sansy i Tyriona
+	(23,31),(27,31) -- ślub Tywina i Joanny
 ;
 
 INSERT INTO rody(id,nazwa,zalozyciel,stolica,godlo,dewiza) VALUES

@@ -17,7 +17,20 @@ INSERT INTO wydarzenia VALUES
 	(DEFAULT, date '0022-05-12','Narodziny Tytosa Lannistera',1,NULL,7),
 	(DEFAULT, date '0042-12-04','Ślub Tytosa z Jayne Marbrant',12,NULL,7),
 	(DEFAULT, date '0045-05-24','Narodziny Sansy Stark',1,NULL,6),
-	(DEFAULT, date '0025-12-23','Narodziny Rhaegara Targaryena',1,NULL,45)
+	(DEFAULT, date '0025-12-23','Narodziny Rhaegara Targaryena',1,NULL,45),
+	(DEFAULT, '0010-02-25','Narodziny Tywina Lannistera',1,NULL,7),
+	(DEFAULT, '0030-04-03','Narodziny Cercei Lannister',1,NULL,7),
+	(DEFAULT, '0031-07-25','Narodziny Jaime Lannistera',1,NULL,7),
+	(DEFAULT, '0035-07-25','Narodziny Tyriona Lannistera',1,NULL,7),
+	(DEFAULT, '0042-03-02','Narodziny Joeffreya Lannistera',1,NULL,7),
+	(DEFAULT, '0047-03-02','Narodziny Myrcelli Lannister',1,NULL,7),
+	(DEFAULT, '0048-03-02','Narodziny Tommena Lannistera',1,NULL,7),
+	(DEFAULT, '0040-07-20','Narodziny Margaery Tyrell',1,NULL,30),
+	(DEFAULT, '0060-05-01','Ślub Joeffreya Lannistera i Margaery Tyrell',12,NULL,65),
+	(DEFAULT, '0060-05-30','Śmierć Joeffreya Lannistera',3,NULL,65),
+	(DEFAULT, '0060-09-20','Ślub Tommena Lannistera i Margaery Tyrell',12,NULL,65),
+	(DEFAULT, '0060-05-25','Ślub Sansy Stark i Tyriona Lannistera',12,NULL,65),
+	(DEFAULT, '0029-10-25','Ślub Tywina Lannistera i Joanny',12,NULL,7)
 ;
 
 END;
