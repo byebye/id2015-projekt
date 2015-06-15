@@ -41,34 +41,27 @@ INSERT INTO osoby VALUES
 	(DEFAULT,'Aegon','Targaryen','Mężczyzna',NULL,NULL,1,1,3)
 ;
 
---Ród Starków
+--Ród Starków, Lannisterów i Targaryenów w kolejności z dupy
 INSERT INTO osoby VALUES
-	(17,'Catelyn','Tully','Kobieta',NULL,NULL,1,1,3),
-	(20,'Jayne','Marbrant','Kobieta',NULL,NULL,1,1,3),
-	(12,'Brandon','Stark','Mężczyzna',NULL,10,1,1,4),
-	(13,'Eddard','Stark','Mężczyzna',NULL,10,1,1,4),
-	(14,'Benjen','Stark','Mężczyzna',NULL,10,1,1,4),
-	(15,'Lyanna','Stark','Kobieta',NULL,10,1,1,4),
-	(16,'Robb','Stark','Mężczyzna',17,13,1,1,4),
-	(18,'Sansa','Stark','Kobieta',17,13,1,1,4)
+	(DEFAULT,'Brandon','Stark','Mężczyzna',NULL,10,1,1,4),
+	(DEFAULT,'Eddard','Stark','Mężczyzna',NULL,10,1,1,4),
+	(DEFAULT,'Benjen','Stark','Mężczyzna',NULL,10,1,1,4),
+	(DEFAULT,'Lyanna','Stark','Kobieta',NULL,10,1,1,4),
+	(DEFAULT,'Robb','Stark','Mężczyzna',17,13,1,1,4),
+	(DEFAULT,'Catelyn','Tully','Kobieta',NULL,NULL,1,1,3),
+	(DEFAULT,'Sansa','Stark','Kobieta',17,13,1,1,4),
+	(DEFAULT,'Tytos','Lannister','Mężczyzna',NULL,9,1,1,3),
+	(DEFAULT,'Jayne','Marbrant','Kobieta',NULL,NULL,1,1,3),
+	(DEFAULT,'Rhaegar','Targaryen','Mężczyzna',NULL,11,1,1,3),
+	(DEFAULT,'Jon','Targaryen','Mężczyzna',15,21,1,1,3),
+	(DEFAULT,'Tywin','Lannister','Mężczyzna',20,19,1,1,3),
+	(DEFAULT,'Kevan','Lannister','Mężczyzna',20,19,1,1,3)
 ;
 
---Ród Lannisterów
-INSERT INTO osoby VALUES
-	(19,'Tytos','Lannister','Mężczyzna',NULL,9,1,1,3),
-	(23,'Tywin','Lannister','Mężczyzna',20,19,1,1,3),
-	(24,'Kevan','Lannister','Mężczyzna',20,19,1,1,3)
-;
-
---Ród Targaryenów
-INSERT INTO osoby VALUES
-	(21,'Rhaegar','Targaryen','Mężczyzna',NULL,11,1,1,3),
-	(22,'Jon','Targaryen','Mężczyzna',15,21,1,1,3)
-;
 --Randomy
 INSERT INTO osoby VALUES
-	(25,'Tygetta','Hill','Kobieta',NULL,23,1,1,3),
-	(26,'Gerion','Hill','Mężczyzna',NULL,23,1,1,3)
+	(DEFAULT,'Tygetta','Hill','Kobieta',NULL,23,1,1,3),
+	(DEFAULT,'Gerion','Hill','Mężczyzna',NULL,23,1,1,3)
 ;
 
 INSERT INTO osoby_wydarzenia VALUES
